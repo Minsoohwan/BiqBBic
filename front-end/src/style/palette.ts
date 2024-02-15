@@ -1,4 +1,4 @@
-const palette = {
+const palette: any = {
   white: "#FFFFFF",
   black: "#292929",
 

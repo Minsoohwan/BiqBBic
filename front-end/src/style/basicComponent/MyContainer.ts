@@ -6,16 +6,20 @@ export const MyContainer = styled.div<StyledComponentProps>`
   ${({ $font }) => handleFontStyle($font)};
   display: ${(props) => props.$display ?? "block"};
   width: ${(props) => props.$width ?? "100%"};
-  min-width: ${(props) => props.$minWidth ?? "fit-content"};
-  height: ${(props) => props.$height ?? "fit-content"};
+  min-width: ${(props) => props.$minWidth};
+  height: ${(props) => props.$height};
   line-height: ${(props) => props.$lineHeight};
-  background-color: ${(props) => props.$backgroundColor ?? palette.white};
   padding: ${(props) => props.$padding};
   border-radius: ${(props) => props.$borderRadius ?? "10px"};
   opacity: ${(props) => props.$opacity ?? "100%"};
   flex-grow: ${(props) => props.$flexGrow};
   flex-shrink: ${(props) => props.$flexShrink};
   align-self: ${(props) => props.$alignSelf};
+  background-image: url(${(props) => props.$backgroundImage});
+  background-color: ${(props) => props.$backgroundColor};
+  background-size: ${(props) => props.$backgroundSize};
+  background-repeat: no-repeat;
+  background-position: ${(props) => props.$backgroundPosition ?? "center"};
 `;
 
 export const MyFlexContainer = styled(MyContainer)`

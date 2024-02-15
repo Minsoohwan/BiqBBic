@@ -6,19 +6,24 @@ interface Props {
 }
 
 const MyLayout = ({ children, background }: PropsWithChildren<Props>) => {
-  return <Layout $background={background}>{children}</Layout>;
+  return <Layout $backgroundImage={background}>{children}</Layout>;
 };
 
-type LayoutProps = {
-  $background?: string;
-};
-const Layout = styled.div<LayoutProps>`
+const Layout = styled.div<StyledComponentProps>`
+  display: flex;
+  gap: 24px;
   width: 100vw;
   height: 100vh;
   min-width: 768px;
   position: relative;
   padding: 25px;
-  background-image: url(${(props) => props.$background});
+  background-image: url(${(props) => props.$backgroundImage});
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  svg {
+    min-width: 410px;
+  }
 `;
 
 export default MyLayout;

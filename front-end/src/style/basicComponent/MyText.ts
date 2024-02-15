@@ -2,7 +2,7 @@ import styled from "styled-components";
 import palette from "../palette";
 import { handleFontStyle } from "../common";
 
-const Text = styled.p<StyledComponentProps>`
+const MyText = styled.p<StyledComponentProps>`
   ${({ $font }) => handleFontStyle($font)};
   margin: ${(props) => props.$margin};
   color: ${(props) => (props.$color ? props.$color : palette.black)};
@@ -11,4 +11,4 @@ const Text = styled.p<StyledComponentProps>`
   text-align: ${(props) => props.$textAlign};
 `;
 
-export default Text;
+export default MyText;

@@ -13,6 +13,7 @@ import MyButton from "../style/basicComponent/MyButton";
 import { useEffect, useState } from "react";
 import MyText from "../style/basicComponent/MyText";
 import { getTimeCount } from "../style/common";
+import MyHr from "../style/basicComponent/MyHr";
 
 // TODO 20240215
 // 반응형 구현
@@ -58,6 +59,12 @@ function DashBoard() {
               iconImage: "/asset/barcode-scanner.png",
             },
             {
+              id: "yunseol",
+              text1: "윤슬",
+              text2: "나에게 딱 맞는 스타일",
+              iconImage: "/asset/yunseol.png",
+            },
+            {
               id: "homeDoctor",
               text1: "홈닥터",
               text2: "비대면 진료",
@@ -69,7 +76,7 @@ function DashBoard() {
               text2: "하루 건강 체크",
               iconImage: "/asset/medical-report.png",
             },
-          ].map(({ id, text1, text2, iconImage }) => (
+          ].map(({ id, text1, text2, iconImage }, idx) => (
             <ServiceItem
               key={id}
               text1={text1}
@@ -140,8 +147,8 @@ function ServiceItem({ text1, text2, iconImage }: Record<string, string>) {
   return (
     <MyFlexContainer $alignItems="center">
       <MyCircle
-        $width="75px"
-        $height="75px"
+        $width="55px"
+        $height="55px"
         $backgroundColor={palette.blue.blue1}
         $backgroundImage={iconImage}
       />

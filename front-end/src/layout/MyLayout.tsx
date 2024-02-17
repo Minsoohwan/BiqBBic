@@ -6,20 +6,32 @@ interface Props {
 }
 
 const MyLayout = ({ children, background }: PropsWithChildren<Props>) => {
-  return <Layout $backgroundImage={background}>{children}</Layout>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <Layout $backgroundImage={background}>{children}</Layout>;
+    </div>
+  );
 };
 
 const Layout = styled.div<StyledComponentProps>`
-  display: flex;
-  gap: 24px;
-  width: 100vw;
-  height: 100vh;
-  min-width: 768px;
   position: relative;
+  display: flex;
+  flex-shrink: 0;
+  gap: 24px;
+  width: 1024px;
+  height: 768px;
+  min-width: 768px;
   padding: 25px;
-  background-image: url(${(props) => props.$backgroundImage});
-  background-size: cover;
-  background-repeat: no-repeat;
 
   svg {
     min-width: 410px;

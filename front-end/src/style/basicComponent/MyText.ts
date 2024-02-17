@@ -9,6 +9,12 @@ const MyText = styled.p<StyledComponentProps>`
   width: ${(props) => props.$width};
   max-width: ${(props) => props.$maxWidth};
   text-align: ${(props) => props.$textAlign};
+  flex-grow: ${(props) => props.$flexGrow};
+`;
+
+export const MyLinkText = styled(MyText).attrs({ as: "a" })`
+  text-decoration: underline;
+  text-underline-position: under;
 `;
 
 export default MyText;

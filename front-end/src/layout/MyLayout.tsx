@@ -1,25 +1,16 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
+import Background from "./Backgound";
 
-interface Props {
-  background?: string;
-}
-
-const MyLayout = ({ children, background }: PropsWithChildren<Props>) => {
+const MyLayout = ({
+  children,
+  background,
+  backgroundColor,
+}: PropsWithChildren<LayoutProps>) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <Layout $backgroundImage={background}>{children}</Layout>;
-    </div>
+    <Background background={background}>
+      <Layout $backgroundColor={backgroundColor}>{children}</Layout>
+    </Background>
   );
 };
 
@@ -32,8 +23,9 @@ const Layout = styled.div<StyledComponentProps>`
   height: 768px;
   min-width: 768px;
   padding: 25px;
+  background-color: ${(props) => props.$backgroundColor};
 
-  svg {
+  .calendar {
     min-width: 410px;
   }
 `;

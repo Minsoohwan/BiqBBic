@@ -1,3 +1,20 @@
+interface LayoutProps {
+  background?: string;
+  backgroundColor?: string;
+}
+
+type Item = {
+  preset: string;
+  img: string;
+  text?: string;
+  price?: number;
+  useIcon?: boolean;
+  favorite?: boolean;
+  buyCount?: number;
+  imgOnly?: boolean;
+  useCount?: boolean;
+};
+
 type CSSPropertiesWithPrefix<T extends keyof CSSStyleDeclaration> = {
   [K in T as `$${string & K}`]: CSSStyleDeclaration[K];
 };

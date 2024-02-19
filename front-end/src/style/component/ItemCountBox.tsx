@@ -1,4 +1,3 @@
-import { MyContainer, MyFlexContainer } from "../basicComponent/MyContainer";
 import { ReactComponent as Plus } from "../../asset/plus.svg";
 import { ReactComponent as Minus } from "../../asset/minus.svg";
 import palette from "../palette";
@@ -8,28 +7,36 @@ import styled from "styled-components";
 function ItemCountBox({
   count,
   setCount,
+  onCountChanged,
 }: {
   count: number;
   setCount: Dispatch<SetStateAction<number>>;
+  onCountChanged?: (count: number) => void;
 }) {
+  const onHandleCount = (count: number) => {
+    setCount(count);
+    if (onCountChanged) onCountChanged(count);
+  };
+
   return (
     <Container>
       <IconItem
+        $disabled={count < 1}
         onClick={() => {
-          setCount(Number(count) - 1);
+          onHandleCount(Number(count) - 1);
         }}
       >
-        <Minus />
+        <Minus className={count < 1 ? "disabled" : "enabled"} />
       </IconItem>
       <CountBox
         value={count}
         onChange={(e: any) => {
-          setCount(Number(e.target.value));
+          onHandleCount(Number(e.target.value));
         }}
       />
       <IconItem
         onClick={() => {
-          setCount(Number(count) + 1);
+          onHandleCount(Number(count) + 1);
         }}
       >
         <Plus />
@@ -49,13 +56,26 @@ const Container = styled.div`
   border-radius: 10px;
 `;
 
-const IconItem = styled.div`
+const IconItem = styled.div<{ $disabled?: boolean }>`
   display: flex;
   height: 100%;
   align-items: center;
   justify-content: center;
   width: 24px;
+  pointer-events: ${(props) => (props.$disabled ? "none" : "all")};
   cursor: pointer;
+
+  .disabled {
+    rect {
+      fill: ${palette.gray.gray1};
+    }
+  }
+
+  .enabled {
+    rect {
+      fill: ${palette.black};
+    }
+  }
 `;
 
 const CountBox = styled.input`

@@ -3,6 +3,13 @@ interface LayoutProps {
   backgroundColor?: string;
 }
 
+type ToBuyItem = {
+  img: string;
+  text: string;
+  price: number;
+  itemCount: number;
+};
+
 type Item = {
   preset: string;
   img: string;
@@ -13,6 +20,8 @@ type Item = {
   buyCount?: number;
   imgOnly?: boolean;
   useCount?: boolean;
+  itemCount?: number;
+  onCountChanged?: (count: number) => void;
 };
 
 type CSSPropertiesWithPrefix<T extends keyof CSSStyleDeclaration> = {
@@ -21,6 +30,7 @@ type CSSPropertiesWithPrefix<T extends keyof CSSStyleDeclaration> = {
 
 type FontType =
   | "title32"
+  | "title24"
   | "bold28"
   | "bold24"
   | "bold20"

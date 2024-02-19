@@ -19,8 +19,8 @@ const Layout = styled.div<StyledComponentProps>`
   display: flex;
   flex-shrink: 0;
   gap: 24px;
-  width: 1024px;
-  height: 768px;
+  width: calc(1024px + 50px);
+  height: calc(768px + 50px);
   min-width: 768px;
   padding: 25px;
   background-color: ${(props) => props.$backgroundColor};

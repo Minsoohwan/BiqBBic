@@ -4,9 +4,17 @@ import { ReactComponent as Heart } from "../../asset/heartDefault.svg";
 import palette from "../palette";
 import { formatPrice, handleFontStyle } from "../common";
 import MyText from "../basicComponent/MyText";
+import ItemCountBox from "./ItemCountBox";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 function ItemBox(props: Item) {
+  const [itemCount, setItemCount] = useState<number>(1);
+
   const presetStyle = getStyle(props.preset);
+
+  useEffect(() => {
+    if (props.itemCount) setItemCount(props.itemCount);
+  }, [props.itemCount]);
 
   return (
     <Wrap>
@@ -33,9 +41,16 @@ function ItemBox(props: Item) {
       {!props.imgOnly && (
         <ItemText $font={presetStyle.font}>{props.text}</ItemText>
       )}
+      {props.useCount && (
+        <ItemCountBox
+          count={itemCount}
+          setCount={setItemCount}
+          onCountChanged={props.onCountChanged}
+        />
+      )}
       {!props.imgOnly && props.price && (
         <MyText $font={presetStyle.price} $color={palette.main.blue}>
-          {formatPrice(props.price)}
+          {formatPrice(props.price * itemCount)}
         </MyText>
       )}
     </Wrap>
@@ -79,7 +94,7 @@ type Style = {
   size: string;
   heart: { width: number; height: number };
 };
-function getStyle(preset: string): Style {
+function getStyle(preset: string | undefined): Style {
   const result: Style = {
     font: "display:block overflow: hidden text-overflow: ellipsis white-space: nowrap position: relative -webkit-line-clamp: 1 -webkit-box-orient: vertical;",
     size: "120px",

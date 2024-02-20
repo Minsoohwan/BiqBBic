@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import MyText from "../style/basicComponent/MyText";
 import { getTimeCount } from "../style/common";
 import MyHr from "../style/basicComponent/MyHr";
+import { useNavigate } from "react-router";
 
 // TODO 20240215
 // 반응형 구현
@@ -43,7 +44,7 @@ function DashBoard() {
 
   return (
     <MyLayout background="/asset/dashBoardBackground.png">
-      <MyFlexContainer $flexDirection="column" $flexGrow="1" $height="100%">
+      <MyFlexContainer $flexDirection="column" $height="100%">
         <MyFlexContainer
           $flexDirection="column"
           $padding="20px"
@@ -57,31 +58,36 @@ function DashBoard() {
               text1: "빅삑",
               text2: "바코드 쇼핑",
               iconImage: "/asset/barcode-scanner.png",
+              linkTo: "/big-bbic",
             },
             {
               id: "yunseol",
               text1: "윤슬",
               text2: "나에게 딱 맞는 스타일",
               iconImage: "/asset/yunseol.png",
+              linkTo: "/yunseol",
             },
             {
               id: "homeDoctor",
               text1: "홈닥터",
               text2: "비대면 진료",
               iconImage: "/asset/health-clinic.png",
+              linkTo: "/homeDoctor",
             },
             {
               id: "heathCare",
               text1: "메일케어",
               text2: "하루 건강 체크",
               iconImage: "/asset/medical-report.png",
+              linkTo: "/heathCare",
             },
-          ].map(({ id, text1, text2, iconImage }, idx) => (
+          ].map(({ id, text1, text2, iconImage, linkTo }, idx) => (
             <ServiceItem
               key={id}
               text1={text1}
               text2={text2}
               iconImage={iconImage}
+              linkTo={linkTo}
             />
           ))}
         </MyFlexContainer>
@@ -134,15 +140,22 @@ function DashBoard() {
           </MyFlexContainer>
         </MyFlexContainer>
       </MyFlexContainer>
-      <Calendar width="40%" height="100%" />
+      <Calendar className="calendar" width="40%" height="100%" />
     </MyLayout>
   );
 }
 
 export default DashBoard;
 
-function ServiceItem({ text1, text2, iconImage }: Record<string, string>) {
+function ServiceItem({
+  text1,
+  text2,
+  iconImage,
+  linkTo,
+}: Record<string, string>) {
   const [fontType, setFontType] = useState<FontType>("regular16");
+
+  const nav = useNavigate();
 
   return (
     <MyFlexContainer $alignItems="center">
@@ -165,11 +178,11 @@ function ServiceItem({ text1, text2, iconImage }: Record<string, string>) {
       </MyContainer>
       <MyButton
         $font={fontType}
-        onMouseDown={() => {
-          setFontType("bold16");
-        }}
-        onMouseUp={() => {
+        $size="small"
+        $backgroundColor="blue"
+        onClick={() => {
           setFontType("regular16");
+          nav(linkTo);
         }}
       >
         바로가기

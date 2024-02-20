@@ -1,28 +1,65 @@
 const express = require("express");
 const router = express.Router();
 const Barcode = require("../schemas/barcode");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 module.exports = router;
 
 router.get("/item", async (req, res) => {
   try {
     const searchValue = req.query.value;
-    console.log(searchValue);
 
+    let result;
     if (isNaN(searchValue)) {
-      const result = await Barcode.find({
+      result = await Barcode.find({
         $or: [
           { PRDLST_NM: { $regex: searchValue, $options: "i" } },
           { PRDT_NM: { $regex: searchValue, $options: "i" } },
           { CMPNY_NM: { $regex: searchValue, $options: "i" } },
         ],
       });
-
-      res.json(result.map((item) => item.PRDT_NM));
     } else {
-      const result = await Barcode.find({ BRCD_NO: Number(searchValue) });
+      result = await Barcode.find({ BRCD_NO: Number(searchValue) });
+    }
 
-      res.json(result.map((item) => item.PRDT_NM));
+    const itemData = result
+      ? {
+          id: result[0].BRCD_NO,
+          text: result[0].PRDT_NM,
+        }
+      : null;
+
+    if (itemData) {
+      axios
+        .get(
+          `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(
+            itemData.text
+          )}`,
+          {
+            headers: {
+              "X-Naver-Client-Id": process.env.CLiENT_ID,
+              "X-Naver-Client-Secret": process.env.CLIENT_SECRET,
+            },
+          }
+        )
+        .then((naver) => {
+          const data = naver.data.items[0];
+          itemData.img = data.image;
+          itemData.price = Number(data.lprice);
+
+          const similerItems = naver.data.items.slice(1).map((item) => {
+            const tempElement = cheerio.load(item.title);
+            const text = tempElement.text();
+            return {
+              id: item.productId,
+              text,
+              img: item.image,
+              price: Number(item.lprice),
+            };
+          });
+          res.json({ item: itemData, similerItems });
+        });
     }
   } catch (err) {
     console.error(err);

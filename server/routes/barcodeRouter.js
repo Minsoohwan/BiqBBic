@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Barcode = require("../schemas/barcode");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 module.exports = router;
 
@@ -28,24 +30,37 @@ router.get("/item", async (req, res) => {
         }
       : null;
 
-    // if (itemData) {
-    //   fetch(
-    //     `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(
-    //       itemData.text
-    //     )}`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         "X-Naver-Client-Id": process.env.client_id,
-    //         "X-Naver-Client-Secret": process.env.client_secret,
-    //       },
-    //     }
-    //   ).then((res) => {
-    //     console.log(res);
-    //   });
-    // }
+    if (itemData) {
+      axios
+        .get(
+          `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(
+            itemData.text
+          )}`,
+          {
+            headers: {
+              "X-Naver-Client-Id": process.env.CLiENT_ID,
+              "X-Naver-Client-Secret": process.env.CLIENT_SECRET,
+            },
+          }
+        )
+        .then((naver) => {
+          const data = naver.data.items[0];
+          itemData.img = data.image;
+          itemData.price = Number(data.lprice);
 
-    res.json(itemData);
+          const similerItems = naver.data.items.slice(1).map((item) => {
+            const tempElement = cheerio.load(item.title);
+            const text = tempElement.text();
+            return {
+              id: item.productId,
+              text,
+              img: item.image,
+              price: Number(item.lprice),
+            };
+          });
+          res.json({ item: itemData, similerItems });
+        });
+    }
   } catch (err) {
     console.error(err);
     res.json("검색 실패");

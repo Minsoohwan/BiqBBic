@@ -9,3 +9,8 @@ export const currentItemStore = atom<ItemData | null>({
   key: "currentItem",
   default: null,
 });
+
+export const similerItemsStore = atom<ItemData[]>({
+  key: "similerItems",
+  default: [],
+});

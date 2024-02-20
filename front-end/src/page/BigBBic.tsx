@@ -20,13 +20,16 @@ import MyText, { MyLinkText } from "../style/basicComponent/MyText";
 import { formatPrice, handleFontStyle } from "../style/common";
 import ItemCountBox from "../style/component/ItemCountBox";
 import { useRecoilState } from "recoil";
-import { currentItemStore, selectedMenuStore } from "../recoilStore";
+import {
+  currentItemStore,
+  selectedMenuStore,
+  similerItemsStore,
+} from "../recoilStore";
 
 function BigBBic() {
   const [currentMenu, setCurrentMenu] = useRecoilState(selectedMenuStore);
   const [currentItem, setCurrentItem] = useRecoilState(currentItemStore);
-  const [similerItems, setSimilerItems] = useState<ItemData[]>([]);
-  const [otherOptions, setotherOptions] = useState<ItemData[]>([]);
+  const [similerItems, setSimilerItems] = useRecoilState(similerItemsStore);
 
   const [itemCount, setItemCount] = useState<number>(1);
 
@@ -63,6 +66,7 @@ function BigBBic() {
         <MyFlexContainer
           $flexDirection="column"
           $alignItems="center"
+          $flexShrink="0"
           $width="110px"
           $height="100%"
           $gap="55px"
@@ -135,7 +139,7 @@ function BigBBic() {
           {currentItem ? (
             <>
               <MyFlexContainer $gap="20px">
-                <ItemBox preset="xlarge" img={currentItem.img} />
+                <ItemBox preset="xlarge" img={currentItem.img} useIcon={true} />
                 <MyFlexContainer
                   $flexDirection="column"
                   $gap="8px"
@@ -213,27 +217,9 @@ function BigBBic() {
               <MyHr />
               <MyFlexContainer $flexDirection="column" $gap="10px">
                 <MyText $font="bold16" $color={palette.gray.gray4}>
-                  동일 상품 다른 옵션
-                </MyText>
-                <MyFlexContainer>
-                  {otherOptions.map((item: ItemData) => (
-                    <ItemBox
-                      key={item.id}
-                      preset="small"
-                      img={item.img}
-                      useIcon={true}
-                      text={item.text}
-                      price={item.price}
-                    />
-                  ))}
-                </MyFlexContainer>
-              </MyFlexContainer>
-              <MyHr />
-              <MyFlexContainer $flexDirection="column" $gap="10px">
-                <MyText $font="bold16" $color={palette.gray.gray4}>
                   비슷한 상품
                 </MyText>
-                <MyFlexContainer>
+                <MyFlexContainer $overflowX="auto" $flexGrow="1">
                   {similerItems.map((item: ItemData) => (
                     <ItemBox
                       key={item.id}
@@ -261,6 +247,7 @@ function BigBBic() {
           )}
         </ItemContainer>
         <MyFlexContainer
+          $flexShrink="0"
           $flexDirection="column"
           $width="170px"
           $height="100%"
@@ -277,7 +264,7 @@ function BigBBic() {
           <MyFlexContainer
             $flexDirection="column"
             $flexGrow="1"
-            $overflow="auto"
+            $overflowY="auto"
             $alignItems="center"
             $borderRadius="0px"
           >

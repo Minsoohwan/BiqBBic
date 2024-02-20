@@ -8,19 +8,24 @@ class BarcodeScanner {
   lastInput: string;
   inputKeys: Record<string, true>;
   timer: NodeJS.Timeout | null;
+  isFetching: boolean;
   setMenu: SetterOrUpdater<string>;
   setItem: SetterOrUpdater<ItemData | null>;
+  setSimilerItems: SetterOrUpdater<ItemData[]>;
 
   constructor(
     setMenu: SetterOrUpdater<string>,
-    setItem: SetterOrUpdater<ItemData | null>
+    setItem: SetterOrUpdater<ItemData | null>,
+    setSimilerItems: SetterOrUpdater<ItemData[]>
   ) {
     this.input = "";
     this.lastInput = "";
     this.inputKeys = {};
     this.timer = null;
+    this.isFetching = false;
     this.setMenu = setMenu;
     this.setItem = setItem;
+    this.setSimilerItems = setSimilerItems;
 
     window.addEventListener("keydown", (e: any) => {
       if (
@@ -50,40 +55,29 @@ class BarcodeScanner {
       else throw new Error("비정상적인 입력 감지");
 
       delete this.inputKeys[this.lastInput];
+
+      if (
+        !this.isFetching &&
+        this.input.startsWith("st") &&
+        this.input.replace("Enter", "").endsWith("end")
+      ) {
+        this.isFetching = true;
+        this.setMenu("바코드검색");
+        const barcode = this.input.slice(2, this.input.length - 3);
+
+        BarcodeFetcher.getItemData(barcode)
+          .then(({ data }) => {
+            this.setItem(data.item);
+            this.setSimilerItems(data.similerItems);
+          })
+          .finally(() => {
+            this.isFetching = false;
+          });
+      }
     });
   }
 
   resetTimer() {
-    if (
-      this.input.startsWith("st") &&
-      this.input.replace("Enter", "").endsWith("end")
-    ) {
-      this.setMenu("바코드검색");
-      const barcode = this.input.slice(2, this.input.length - 3);
-
-      BarcodeFetcher.getItemData(barcode).then((res) => {
-        if (res.data === null) return new Error("검색 실패");
-
-        const itemData = res.data;
-        if (itemData) {
-          axios
-            .get(
-              `/v1/search/shop.json?query=${encodeURIComponent(itemData.text)}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
-                  "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET,
-                },
-              }
-            )
-            .then((res) => {
-              console.log(res);
-            });
-        }
-      });
-    }
-
     if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.input = "";

@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 function ItemBox(props: Item) {
   const [itemCount, setItemCount] = useState<number>(1);
+  const [isFavorite, setIsFavorite] = useState<boolean>(!!props.favorite);
 
   const presetStyle = getStyle(props.preset);
 
@@ -17,11 +18,15 @@ function ItemBox(props: Item) {
   }, [props.itemCount]);
 
   return (
-    <Wrap>
+    <Wrap $size={presetStyle.size}>
       <ItemImg $size={presetStyle.size} $img={props.img}>
         {props.useIcon && (
-          <IconBox>
-            {props.favorite ? (
+          <IconBox
+            onClick={() => {
+              setIsFavorite(!isFavorite);
+            }}
+          >
+            {isFavorite ? (
               <HeartFill
                 width={presetStyle.heart.width}
                 height={presetStyle.heart.height}
@@ -59,15 +64,17 @@ function ItemBox(props: Item) {
 
 export default ItemBox;
 
-const Wrap = styled.div`
+const Wrap = styled.div<{ $size: string }>`
   display: flex;
   flex-direction: column;
   gap: 3px;
+  width: ${({ $size }) => $size};
+  flex-shrink: 0;
 `;
 
 const ItemImg = styled.div<{ $size: string; $img: string }>`
   position: relative;
-  width: ${({ $size }) => $size};
+
   height: ${({ $size }) => $size};
   border: 1px solid ${palette.gray.gray2};
   border-radius: 10px;
@@ -86,6 +93,7 @@ const IconBox = styled.div`
 
 const ItemText = styled.div<{ $font: string }>`
   ${({ $font }) => $font}
+  word-break:break-all;
 `;
 
 type Style = {

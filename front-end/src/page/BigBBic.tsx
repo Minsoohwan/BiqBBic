@@ -25,11 +25,15 @@ import {
   selectedMenuStore,
   similerItemsStore,
 } from "../recoilStore";
+import Favorite from "./Favorite";
+import Home from "./Home";
+import Rebuy from "./Rebuy";
+import BillPopup from "../style/component/BillPopup";
 
 function BigBBic() {
   const [currentMenu, setCurrentMenu] = useRecoilState(selectedMenuStore);
-  const [currentItem, setCurrentItem] = useRecoilState(currentItemStore);
-  const [similerItems, setSimilerItems] = useRecoilState(similerItemsStore);
+  const [currentItem] = useRecoilState(currentItemStore);
+  const [similerItems] = useRecoilState(similerItemsStore);
 
   const [itemCount, setItemCount] = useState<number>(1);
 
@@ -40,6 +44,8 @@ function BigBBic() {
   >({});
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  const [popupVisible, setPopupVisible] = useState<boolean>(false);
 
   useEffect(() => {
     let price = 0;
@@ -52,12 +58,13 @@ function BigBBic() {
   }, [toBuyList, currentSelectedItems]);
 
   useEffect(() => {
-    console.log(currentMenu);
-  }, [currentMenu]);
+    setItemCount(1);
+  }, [currentItem]);
 
   return (
     <MyLayout background="/asset/dashBoardBackground.png">
       <MyFlexContainer
+        $position="relative"
         $height="100%"
         $backgroundColor={palette.main.green}
         $padding="15px 15px 15px 0"
@@ -129,122 +136,148 @@ function BigBBic() {
         </MyFlexContainer>
         <ItemContainer>
           {(currentMenu === "홈" || currentMenu === "바코드검색") && (
-            <MyFlexContainer $justifyContent="center" $alignItems="center">
+            <MyFlexContainer
+              $justifyContent="center"
+              $alignItems="center"
+              $flexShrink="0"
+            >
               <SearchPanel $width="100%">
                 <SearchBox placeholder="검색어 또는 바코드 숫자를 입력해주세요." />
                 <SearchIcon />
               </SearchPanel>
             </MyFlexContainer>
           )}
-          {currentItem ? (
+          {currentMenu === "바코드검색" && (
             <>
-              <MyFlexContainer $gap="20px">
-                <ItemBox preset="xlarge" img={currentItem.img} useIcon={true} />
-                <MyFlexContainer
-                  $flexDirection="column"
-                  $gap="8px"
-                  $height="100%"
-                >
-                  <MyText $font="bold24">{currentItem.text}</MyText>
-                  <MyText $font="bold28" $color={palette.main.blue}>
-                    {formatPrice(currentItem.price)}
-                  </MyText>
-                  <MyText $font="regular20" $margin="12px 0 0 0 " $flexGrow="1">
-                    원산지 :
-                    <MyLinkText
-                      $font="regular20"
-                      $color={palette.main.green}
-                      $margin="0 0 0 7px"
-                    >
-                      상품 상세설명 참조
-                    </MyLinkText>
-                  </MyText>
-                  <MyFlexContainer $flexDirection="column">
+              {currentItem ? (
+                <>
+                  <MyFlexContainer $gap="20px">
+                    <ItemBox
+                      preset="xlarge"
+                      img={currentItem.img}
+                      useIcon={true}
+                    />
                     <MyFlexContainer
-                      $justifyContent="space-between"
-                      $alignItems="center"
+                      $flexDirection="column"
+                      $gap="8px"
+                      $height="100%"
                     >
-                      <ItemCountBox count={itemCount} setCount={setItemCount} />
-                      <MyFlexContainer
-                        $alignItems="flex-end"
-                        $justifyContent="flex-end"
+                      <MyText $font="bold24">{currentItem.text}</MyText>
+                      <MyText $font="bold28" $color={palette.main.blue}>
+                        {formatPrice(currentItem.price)}
+                      </MyText>
+                      <MyText
+                        $font="regular20"
+                        $margin="12px 0 0 0 "
                         $flexGrow="1"
                       >
-                        <MyText $font="bold20" $color={palette.green.green4}>
-                          총
-                        </MyText>
-                        <MyText
-                          $font={
-                            formatPrice(currentItem.price * itemCount).length >=
-                            10
-                              ? "title24"
-                              : "title32"
-                          }
-                          $color={palette.green.green4}
+                        원산지 :
+                        <MyLinkText
+                          $font="regular20"
+                          $color={palette.main.green}
+                          $margin="0 0 0 7px"
                         >
-                          {formatPrice(currentItem.price * itemCount)}
-                        </MyText>
+                          상품 상세설명 참조
+                        </MyLinkText>
+                      </MyText>
+                      <MyFlexContainer $flexDirection="column">
+                        <MyFlexContainer
+                          $justifyContent="space-between"
+                          $alignItems="center"
+                        >
+                          <ItemCountBox
+                            count={itemCount}
+                            setCount={setItemCount}
+                          />
+                          <MyFlexContainer
+                            $alignItems="flex-end"
+                            $justifyContent="flex-end"
+                            $flexGrow="1"
+                          >
+                            <MyText
+                              $font="bold20"
+                              $color={palette.green.green4}
+                            >
+                              총
+                            </MyText>
+                            <MyText
+                              $font={
+                                formatPrice(currentItem.price * itemCount)
+                                  .length >= 10
+                                  ? "title24"
+                                  : "title32"
+                              }
+                              $color={palette.green.green4}
+                            >
+                              {formatPrice(currentItem.price * itemCount)}
+                            </MyText>
+                          </MyFlexContainer>
+                        </MyFlexContainer>
+                        <MyButton
+                          $font="bold20"
+                          $backgroundColor="orange"
+                          $size="large"
+                          $alignSelf="flex-end"
+                          onClick={() => {
+                            console.log("???????????????");
+                            const list = [...toBuyList];
+
+                            const alreadySelectedItem = list.find(
+                              (item) => item.id == currentItem.id
+                            );
+                            if (alreadySelectedItem)
+                              alreadySelectedItem.itemCount += itemCount;
+                            else list.push({ ...currentItem, itemCount });
+                            setToBuyList(list);
+
+                            const selectedItems = {
+                              ...currentSelectedItems,
+                            };
+                            selectedItems[currentItem.id] = true;
+                            setCurrentSelectedItems(selectedItems);
+                          }}
+                        >
+                          장바구니 담기
+                        </MyButton>
                       </MyFlexContainer>
                     </MyFlexContainer>
-                    <MyButton
-                      $font="bold20"
-                      $backgroundColor="orange"
-                      $size="large"
-                      $alignSelf="flex-end"
-                      onClick={() => {
-                        const list = [...toBuyList];
-
-                        const alreadySelectedItem = list.find(
-                          (item) => item.id == currentItem.id
-                        );
-                        if (alreadySelectedItem)
-                          alreadySelectedItem.itemCount += itemCount;
-                        else list.push({ ...currentItem, itemCount });
-                        setToBuyList(list);
-
-                        const selectedItems = {
-                          ...currentSelectedItems,
-                        };
-                        selectedItems[currentItem.id] = true;
-                        setCurrentSelectedItems(selectedItems);
-                      }}
-                    >
-                      장바구니 담기
-                    </MyButton>
                   </MyFlexContainer>
+                  <MyHr />
+                  <MyFlexContainer $flexDirection="column" $gap="10px">
+                    <MyText $font="bold16" $color={palette.gray.gray4}>
+                      비슷한 상품
+                    </MyText>
+                    <MyFlexContainer $overflowX="auto" $flexGrow="1">
+                      {similerItems.map((item: ItemData) => (
+                        <ItemBox
+                          key={item.id}
+                          preset="small"
+                          img={item.img}
+                          useIcon={true}
+                          text={item.text}
+                          price={item.price}
+                        />
+                      ))}
+                    </MyFlexContainer>
+                  </MyFlexContainer>
+                </>
+              ) : (
+                <MyFlexContainer
+                  $flexGrow="1"
+                  $font="title32"
+                  $flexDirection="column"
+                  $alignItems="center"
+                  $margin="150px 0 0 0"
+                >
+                  <img src="/asset/barcode-scanner.png" />
+                  바코드 검색은 바코드를 리더기에 스캔해주세요.
                 </MyFlexContainer>
-              </MyFlexContainer>
-              <MyHr />
-              <MyFlexContainer $flexDirection="column" $gap="10px">
-                <MyText $font="bold16" $color={palette.gray.gray4}>
-                  비슷한 상품
-                </MyText>
-                <MyFlexContainer $overflowX="auto" $flexGrow="1">
-                  {similerItems.map((item: ItemData) => (
-                    <ItemBox
-                      key={item.id}
-                      preset="small"
-                      img={item.img}
-                      useIcon={true}
-                      text={item.text}
-                      price={item.price}
-                    />
-                  ))}
-                </MyFlexContainer>
-              </MyFlexContainer>
+              )}
             </>
-          ) : (
-            <MyFlexContainer
-              $flexGrow="1"
-              $font="title32"
-              $flexDirection="column"
-              $alignItems="center"
-              $margin="150px 0 0 0"
-            >
-              <img src="/asset/barcode-scanner.png" />
-              바코드 검색은 바코드를 리더기에 스캔해주세요.
-            </MyFlexContainer>
           )}
+          {currentMenu == "heart" && <Favorite />}
+          {currentMenu == "홈" && <Home />}
+          {currentMenu == "다시 주문" && <Rebuy />}
         </ItemContainer>
         <MyFlexContainer
           $flexShrink="0"
@@ -306,6 +339,7 @@ function BigBBic() {
                   $width="fit-content"
                   $height="17px"
                   $cursor="pointer"
+                  $overflowY="hidden"
                   onClick={() => {
                     const list = [...toBuyList];
                     toBuyList.forEach(
@@ -325,12 +359,14 @@ function BigBBic() {
               </MyFlexContainer>
             ))}
           </MyFlexContainer>
-          <MyFlexContainer $flexDirection="column" $gap="4px">
+          <MyFlexContainer $flexDirection="column" $gap="4px" $flexShrink="0">
             <MyFlexContainer
               $flexDirection="column"
               $alignItems="flex-end"
+              $borderRadius="0px"
               $height="52px"
               $gap="4px"
+              $overflowY="hidden"
             >
               <MyText $font="bold20" $color={palette.green.green4}>
                 선택상품 총액
@@ -344,11 +380,20 @@ function BigBBic() {
                 {formatPrice(totalPrice)}
               </MyText>
             </MyFlexContainer>
-            <MyButton $font="bold20" $size="medium" $backgroundColor="orange">
+            <MyButton
+              $font="bold20"
+              $size="medium"
+              $backgroundColor="orange"
+              $disabled={toBuyList.length === 0}
+              onClick={() => {
+                setPopupVisible(true);
+              }}
+            >
               주문
             </MyButton>
           </MyFlexContainer>
         </MyFlexContainer>
+        {popupVisible && <BillPopup setPopupVisible={setPopupVisible} />}
       </MyFlexContainer>
     </MyLayout>
   );
@@ -368,6 +413,7 @@ const CallButton = styled.button`
 const SearchPanel = styled(MyFlexContainer)`
   position: relative;
   width: 62.5%;
+  border-radius: 0;
 `;
 
 const ItemContainer = styled.div`
@@ -386,10 +432,9 @@ const SearchBox = styled.input`
   ${handleFontStyle("regular20")};
   width: 100%;
   height: 41px;
-  padding-inline-start: 15px;
+  padding: 8px 32px 8px 15px;
   border: 1px solid ${palette.main.green};
   border-radius: 5px;
-  opacity: 80%;
 
   &:focus {
     background-color: ${palette.green.green1};

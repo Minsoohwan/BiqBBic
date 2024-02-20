@@ -54,4 +54,5 @@ export const MyFlexContainer = styled(MyContainer)`
   justify-content: ${(props) => props.$justifyContent ?? "flex-start"};
   align-items: ${(props) => props.$alignItems ?? "flex-start"};
   gap: ${(props) => props.$gap ?? "20px"};
+  flex-wrap: ${(props) => props.$flexWrap};
 `;

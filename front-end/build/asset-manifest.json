@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.df17e4d2.css",
-    "main.js": "/static/js/main.acfd9763.js",
+    "main.js": "/static/js/main.23ff0d5d.js",
     "static/js/748.06d5ae52.chunk.js": "/static/js/748.06d5ae52.chunk.js",
     "static/media/NanumSquareNeo-R.ttf": "/static/media/NanumSquareNeo-R.5076032d79b49a26baa2.ttf",
     "static/media/NanumSquareNeo-B.ttf": "/static/media/NanumSquareNeo-B.7f4dbb792cbda9fc36a4.ttf",
@@ -19,6 +19,6 @@
   },
   "entrypoints": [
     "static/css/main.df17e4d2.css",
-    "static/js/main.acfd9763.js"
+    "static/js/main.23ff0d5d.js"
   ]
 }

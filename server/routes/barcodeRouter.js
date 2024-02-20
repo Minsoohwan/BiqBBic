@@ -7,23 +7,45 @@ module.exports = router;
 router.get("/item", async (req, res) => {
   try {
     const searchValue = req.query.value;
-    console.log(searchValue);
 
+    let result;
     if (isNaN(searchValue)) {
-      const result = await Barcode.find({
+      result = await Barcode.find({
         $or: [
           { PRDLST_NM: { $regex: searchValue, $options: "i" } },
           { PRDT_NM: { $regex: searchValue, $options: "i" } },
           { CMPNY_NM: { $regex: searchValue, $options: "i" } },
         ],
       });
-
-      res.json(result.map((item) => item.PRDT_NM));
     } else {
-      const result = await Barcode.find({ BRCD_NO: Number(searchValue) });
-
-      res.json(result.map((item) => item.PRDT_NM));
+      result = await Barcode.find({ BRCD_NO: Number(searchValue) });
     }
+
+    const itemData = result
+      ? {
+          id: result[0].BRCD_NO,
+          text: result[0].PRDT_NM,
+        }
+      : null;
+
+    // if (itemData) {
+    //   fetch(
+    //     `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(
+    //       itemData.text
+    //     )}`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         "X-Naver-Client-Id": process.env.client_id,
+    //         "X-Naver-Client-Secret": process.env.client_secret,
+    //       },
+    //     }
+    //   ).then((res) => {
+    //     console.log(res);
+    //   });
+    // }
+
+    res.json(itemData);
   } catch (err) {
     console.error(err);
     res.json("검색 실패");

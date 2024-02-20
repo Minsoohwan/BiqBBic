@@ -1,22 +1,17 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
+import BarcodeScanner from "../barcode/BarcodeScanner";
+import { useSetRecoilState } from "recoil";
+import { currentItemStore, selectedMenuStore } from "../recoilStore";
+import axios from "axios";
 
 const Background = ({
   children,
   background,
   backgroundColor,
 }: PropsWithChildren<LayoutProps>) => {
-  const a: any = {};
-  window.addEventListener("keydown", (e: any) => {
-    // console.log(e.code + " 누름");
-    a[e.key] = true;
-    console.log(a);
-  });
-
-  window.addEventListener("keyup", (e: any) => {
-    // console.log(e.code + " 손뗌");
-    delete a[e.code];
-    console.log(a);
-  });
+  const setCurrentMenu = useSetRecoilState(selectedMenuStore);
+  const setCurrentItem = useSetRecoilState(currentItemStore);
+  const barcodeScanner = new BarcodeScanner(setCurrentMenu, setCurrentItem);
 
   return (
     <div

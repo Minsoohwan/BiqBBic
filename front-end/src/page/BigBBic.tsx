@@ -19,17 +19,12 @@ import styled from "styled-components";
 import MyText, { MyLinkText } from "../style/basicComponent/MyText";
 import { formatPrice, handleFontStyle } from "../style/common";
 import ItemCountBox from "../style/component/ItemCountBox";
-
-type ItemData = {
-  id: number;
-  img: string;
-  text: string;
-  price: number;
-};
+import { useRecoilState } from "recoil";
+import { currentItemStore, selectedMenuStore } from "../recoilStore";
 
 function BigBBic() {
-  const [currentMenu, setCurrentMenu] = useState("바코드검색");
-  const [currentItem, setCurrentItem] = useState<ItemData | null>(null);
+  const [currentMenu, setCurrentMenu] = useRecoilState(selectedMenuStore);
+  const [currentItem, setCurrentItem] = useRecoilState(currentItemStore);
   const [similerItems, setSimilerItems] = useState<ItemData[]>([]);
   const [otherOptions, setotherOptions] = useState<ItemData[]>([]);
 
@@ -52,6 +47,10 @@ function BigBBic() {
 
     setTotalPrice(price);
   }, [toBuyList, currentSelectedItems]);
+
+  useEffect(() => {
+    console.log(currentMenu);
+  }, [currentMenu]);
 
   return (
     <MyLayout background="/asset/dashBoardBackground.png">
@@ -270,7 +269,6 @@ function BigBBic() {
           $margin="0 0 0 10px"
           $alignItems="center"
           $gap="6px"
-          $borderRadius="0px"
         >
           <MyText $font="title32" $color={palette.green.green4}>
             장바구니

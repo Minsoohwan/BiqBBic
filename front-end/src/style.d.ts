@@ -3,6 +3,13 @@ interface LayoutProps {
   backgroundColor?: string;
 }
 
+type ItemData = {
+  id: number;
+  img: string;
+  text: string;
+  price: number;
+};
+
 type ToBuyItem = {
   img: string;
   text: string;

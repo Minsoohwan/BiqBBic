@@ -162,7 +162,6 @@ function BigBBic() {
                       BarcodeFetcher.getItems(searchRef.current.value).then(
                         ({ data: items }) => {
                           if (items === "검색 결과 없음") {
-                            setisNoData(true);
                             return;
                           }
 
@@ -174,7 +173,6 @@ function BigBBic() {
                       BarcodeFetcher.getItemData(searchRef.current.value).then(
                         ({ data }) => {
                           if (data === "검색 결과 없음") {
-                            setisNoData(true);
                             return;
                           }
 
@@ -191,7 +189,7 @@ function BigBBic() {
         )}
         {currentMenu === "바코드검색" && (
           <>
-            {currentItem ? (
+            {currentItem && currentItem !== "검색 결과 없음" ? (
               <>
                 <MyFlexContainer $gap="20px">
                   <ItemBox
@@ -299,7 +297,7 @@ function BigBBic() {
                   </MyFlexContainer>
                 </MyFlexContainer>
               </>
-            ) : isNoData ? (
+            ) : currentItem === "검색 결과 없음" ? (
               <MyFlexContainer
                 $flexGrow="1"
                 $font="title32"

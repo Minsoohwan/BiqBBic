@@ -9,14 +9,13 @@ module.exports = router;
 router.get("/item", async (req, res) => {
   try {
     const searchValue = req.query.value;
-    console.log(searchValue);
     const result = await Barcode.find({ BRCD_NO: Number(searchValue) });
-
-    const itemData = result
-      ? {
-          text: result[0].PRDT_NM,
-        }
-      : null;
+    const itemData =
+      result.length != 0
+        ? {
+            text: result[0].PRDT_NM,
+          }
+        : null;
 
     if (itemData) {
       axios
@@ -53,6 +52,8 @@ router.get("/item", async (req, res) => {
           });
           res.json({ item: itemData, similerItems });
         });
+    } else {
+      res.json("검색 결과 없음");
     }
   } catch (err) {
     console.error(err);

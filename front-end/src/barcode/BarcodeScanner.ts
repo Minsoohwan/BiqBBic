@@ -10,12 +10,12 @@ class BarcodeScanner {
   timer: NodeJS.Timeout | null;
   isFetching: boolean;
   setMenu: SetterOrUpdater<string>;
-  setItem: SetterOrUpdater<ItemData | null>;
+  setItem: SetterOrUpdater<ItemData | "검색 결과 없음" | null>;
   setSimilerItems: SetterOrUpdater<ItemData[]>;
 
   constructor(
     setMenu: SetterOrUpdater<string>,
-    setItem: SetterOrUpdater<ItemData | null>,
+    setItem: SetterOrUpdater<ItemData | "검색 결과 없음" | null>,
     setSimilerItems: SetterOrUpdater<ItemData[]>
   ) {
     this.input = "";
@@ -67,6 +67,11 @@ class BarcodeScanner {
 
         BarcodeFetcher.getItemData(barcode)
           .then(({ data }) => {
+            if (data == "검색 결과 없음") {
+              this.setItem(data);
+              return;
+            }
+
             this.setItem(data.item);
             this.setSimilerItems(data.similerItems);
           })

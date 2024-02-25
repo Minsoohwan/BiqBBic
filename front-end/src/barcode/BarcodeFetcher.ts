@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseURL =
-  "http://bigbbic-env.eba-ypkjnrek.us-east-1.elasticbeanstalk.com";
+  "http://bigbbic-env.eba-ypkjnrek.us-east-1.elasticbeanstalk.com/barcode";
 // "http://localhost:8080/barcode";
 
 const BarcodeFetcher: Record<

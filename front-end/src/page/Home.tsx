@@ -108,6 +108,7 @@ function Home() {
               setCurrentMenu("바코드검색");
               BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
                 if (items === "검색 결과 없음") {
+                  setSismilerItems([]);
                   return;
                 }
 

@@ -11,9 +11,7 @@ import MyCircle from "../style/basicComponent/MyCircle";
 import MyButton from "../style/basicComponent/MyButton";
 
 import { useEffect, useState } from "react";
-import MyText from "../style/basicComponent/MyText";
 import { getTimeCount } from "../style/common";
-import MyHr from "../style/basicComponent/MyHr";
 import { useNavigate } from "react-router";
 
 // TODO 20240215
@@ -65,29 +63,27 @@ function DashBoard() {
               text1: "윤슬",
               text2: "나에게 딱 맞는 스타일",
               iconImage: "/asset/yunseol.png",
-              linkTo: "/yunseol",
+              onClick: () => {
+                alert("준비중인 서비스 입니다.(3월 초 이내)");
+              },
             },
             {
               id: "homeDoctor",
               text1: "홈닥터",
               text2: "비대면 진료",
               iconImage: "/asset/health-clinic.png",
-              linkTo: "/homeDoctor",
+              onClick: () => {
+                alert("준비중인 서비스 입니다.");
+              },
             },
-            {
-              id: "heathCare",
-              text1: "메일케어",
-              text2: "하루 건강 체크",
-              iconImage: "/asset/medical-report.png",
-              linkTo: "/heathCare",
-            },
-          ].map(({ id, text1, text2, iconImage, linkTo }, idx) => (
+          ].map(({ id, text1, text2, iconImage, linkTo, onClick }, idx) => (
             <ServiceItem
               key={id}
               text1={text1}
               text2={text2}
               iconImage={iconImage}
               linkTo={linkTo}
+              onClick={onClick}
             />
           ))}
         </MyFlexContainer>
@@ -120,12 +116,21 @@ function DashBoard() {
 
 export default DashBoard;
 
+interface ServiceItemProps {
+  text1: string;
+  text2: string;
+  iconImage: string;
+  linkTo?: string;
+  onClick?: () => void;
+}
+
 function ServiceItem({
   text1,
   text2,
   iconImage,
   linkTo,
-}: Record<string, string>) {
+  onClick,
+}: ServiceItemProps) {
   const [fontType, setFontType] = useState<FontType>("regular16");
 
   const nav = useNavigate();
@@ -155,7 +160,8 @@ function ServiceItem({
         $backgroundColor="blue"
         onClick={() => {
           setFontType("regular16");
-          nav(linkTo);
+          if (linkTo) nav(linkTo);
+          else if (onClick) onClick();
         }}
       >
         바로가기

@@ -298,6 +298,7 @@ function BigBBic() {
                           BarcodeFetcher.getItems(item.text).then(
                             ({ data: items }) => {
                               if (items === "검색 결과 없음") {
+                                setSismilerItems([]);
                                 return;
                               }
 

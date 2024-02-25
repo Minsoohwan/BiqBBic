@@ -2,8 +2,7 @@ import { ReactComponent as Logo } from "../asset/logo.svg";
 import { ReactComponent as Heart } from "../asset/heart.svg";
 import { ReactComponent as Phone } from "../asset/phone.svg";
 import { ReactComponent as Trash } from "../asset/trash.svg";
-
-import MyLayout from "../layout/MyLayout";
+import { ReactComponent as ArrowLeft } from "../asset/arrowLeft.svg";
 
 import palette from "../style/palette";
 import {
@@ -32,8 +31,11 @@ import ItemList from "./ItemList";
 import BillPopup from "../style/component/BillPopup";
 import BarcodeFetcher from "../barcode/BarcodeFetcher";
 import Information from "../style/component/Information";
+import { useNavigate } from "react-router";
 
 function BigBBic() {
+  const nav = useNavigate();
+
   const [infoVisible, setInfoVisible] = useState(true);
 
   const [currentMenu, setCurrentMenu] = useRecoilState(selectedMenuStore);
@@ -136,16 +138,32 @@ function BigBBic() {
             />
           ))}
         </MyFlexContainer>
-        <CallButton>
-          <MyFlexContainer
-            $alignContent="center"
-            $gap="0"
-            $color={palette.white}
+        <ButtonContainer>
+          <CallButton>
+            <MyFlexContainer
+              $alignContent="center"
+              $gap="0"
+              $color={palette.white}
+            >
+              <Phone />
+              원격상담
+            </MyFlexContainer>
+          </CallButton>
+          <BackButton
+            onClick={() => {
+              nav(-1);
+            }}
           >
-            <Phone />
-            원격상담
-          </MyFlexContainer>
-        </CallButton>
+            <MyFlexContainer
+              $alignContent="center"
+              $gap="0"
+              $color={palette.white}
+            >
+              <ArrowLeft />
+              뒤로가기
+            </MyFlexContainer>
+          </BackButton>
+        </ButtonContainer>
       </MyFlexContainer>
       <ItemContainer>
         {(currentMenu === "홈" || currentMenu === "바코드검색") && (
@@ -470,13 +488,23 @@ function BigBBic() {
 
 export default BigBBic;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+`;
+
 const CallButton = styled.button`
   ${handleFontStyle("regular14")};
   align-items: center;
   padding: 10px 5px;
-  background-color: rgba(23, 29, 54, 0.85);
+  background-color: ${palette.sub.orange};
   border-radius: 10px;
   cursor: pointer;
+`;
+
+const BackButton = styled(CallButton)`
+  background-color: rgba(23, 29, 54, 0.85);
 `;
 
 const SearchPanel = styled(MyFlexContainer)`

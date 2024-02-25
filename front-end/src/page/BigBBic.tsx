@@ -31,8 +31,11 @@ import Home from "./Home";
 import ItemList from "./ItemList";
 import BillPopup from "../style/component/BillPopup";
 import BarcodeFetcher from "../barcode/BarcodeFetcher";
+import Information from "../style/component/Information";
 
 function BigBBic() {
+  const [infoVisible, setInfoVisible] = useState(true);
+
   const [currentMenu, setCurrentMenu] = useRecoilState(selectedMenuStore);
   const [currentItem, setCurrentItem] = useRecoilState(currentItemStore);
   const [isNoData, setisNoData] = useRecoilState(noDataStore);
@@ -77,6 +80,7 @@ function BigBBic() {
       $padding="15px 15px 15px 0"
       $gap="0"
     >
+      {infoVisible && <Information setPopupVisible={setInfoVisible} />}
       <MyFlexContainer
         $flexDirection="column"
         $alignItems="center"

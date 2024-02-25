@@ -7,8 +7,19 @@ import { formatPrice } from "../style/common";
 import ItemBox from "../style/component/ItemBox";
 import ItemCountBox from "../style/component/ItemCountBox";
 import palette from "../style/palette";
+import BarcodeFetcher from "../barcode/BarcodeFetcher";
+import { useSetRecoilState } from "recoil";
+import {
+  currentItemStore,
+  selectedMenuStore,
+  similerItemsStore,
+} from "../recoilStore";
 
 function Favorite() {
+  const setCurrentMenu = useSetRecoilState(selectedMenuStore);
+  const setCurrentItem = useSetRecoilState(currentItemStore);
+  const setSismilerItems = useSetRecoilState(similerItemsStore);
+
   const [favoriteItems, setFavoriteItems] = useState<ItemData[]>([
     {
       id: 8809009575717,
@@ -64,6 +75,18 @@ function Favorite() {
             text={item.text}
             price={item.price}
             favorite={true}
+            onClick={() => {
+              setCurrentItem(item);
+              setCurrentMenu("바코드검색");
+              BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
+                if (items === "검색 결과 없음") {
+                  setSismilerItems([]);
+                  return;
+                }
+
+                setSismilerItems(items);
+              });
+            }}
           />
         ))}
       </MyFlexContainer>

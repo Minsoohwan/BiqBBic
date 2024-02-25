@@ -10,6 +10,11 @@ const MyText = styled.p<StyledComponentProps>`
   max-width: ${(props) => props.$maxWidth};
   text-align: ${(props) => props.$textAlign};
   flex-grow: ${(props) => props.$flexGrow};
+
+  .day {
+    ${({ $font }) => handleFontStyle($font)};
+    color: ${palette.sub.orange};
+  }
 `;
 
 export const MyLinkText = styled(MyText).attrs({ as: "a" })`

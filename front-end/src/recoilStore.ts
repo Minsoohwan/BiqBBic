@@ -19,3 +19,15 @@ export const noDataStore = atom<boolean>({
   key: "noData",
   default: false,
 });
+
+interface modalGather {
+  orderModal: boolean;
+  customerServiceModal: boolean;
+}
+export const modalGatherStore = atom<modalGather>({
+  key: "modalGatherStore",
+  default: {
+    orderModal: false,
+    customerServiceModal: false,
+  },
+});

@@ -21,6 +21,7 @@ import ItemCountBox from "../style/component/ItemCountBox";
 import { useRecoilState } from "recoil";
 import {
   currentItemStore,
+  modalGatherStore,
   noDataStore,
   selectedMenuStore,
   similerItemsStore,
@@ -54,7 +55,7 @@ function BigBBic() {
   >({});
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
-
+  const [modalGather, setModalGather] = useRecoilState(modalGatherStore);
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
 
   const searchRef = useRef<HTMLInputElement>(null);
@@ -467,21 +468,19 @@ function BigBBic() {
             $backgroundColor="orange"
             $disabled={toBuyList.length === 0}
             onClick={() => {
-              setPopupVisible(true);
+              setModalGather({ ...modalGather, orderModal: true });
             }}
           >
             주문
           </MyButton>
         </MyFlexContainer>
       </MyFlexContainer>
-      {popupVisible && (
-        <BillPopup
-          items={toBuyList.filter(
-            (item: ToBuyItem) => item.id in currentSelectedItems
-          )}
-          setPopupVisible={setPopupVisible}
-        />
-      )}
+
+      <BillPopup
+        items={toBuyList.filter(
+          (item: ToBuyItem) => item.id in currentSelectedItems
+        )}
+      />
     </MyFlexContainer>
   );
 }

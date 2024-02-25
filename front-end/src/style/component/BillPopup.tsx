@@ -74,12 +74,6 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
     } else setOrderProcess("주문서");
   }, [modalGather.orderModal]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     setOrderProcess("주문서");
-  //   };
-  // }, []);
-
   return (
     <React.Fragment>
       {modalGather.orderModal && (
@@ -318,6 +312,7 @@ const PopupContent = styled.div`
   border-radius: 10px;
   background-color: ${palette.white};
   z-index: 100;
+  -webkit-transform: translate3d(0, 0, 10px);
 `;
 
 const ContentContainer = styled.div`
@@ -370,6 +365,7 @@ const CloesIcon = styled.div`
   background-size: cover;
   cursor: pointer;
   z-index: 101;
+  -webkit-transform: translate3d(0, 0, 11px);
 `;
 
 const PaymentWrap = styled.div`

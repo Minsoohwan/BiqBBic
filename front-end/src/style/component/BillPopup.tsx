@@ -83,11 +83,7 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
   return (
     <React.Fragment>
       {modalGather.orderModal && (
-        <Shadow
-          onClick={() => {
-            setModalGather({ ...modalGather, orderModal: false });
-          }}
-        >
+        <Shadow>
           <PopupContent
             onClick={(e) => {
               e.stopPropagation();
@@ -128,6 +124,9 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
                   $width="150px"
                   $font="bold20"
                   $backgroundColor="orange"
+                  onClick={() => {
+                    setModalGather({ ...modalGather, orderModal: false });
+                  }}
                 >
                   닫기
                 </MyButton>

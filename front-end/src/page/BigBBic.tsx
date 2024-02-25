@@ -91,6 +91,7 @@ function BigBBic() {
           $flexDirection="column"
           $alignItems="center"
           $gap="3px"
+          $borderRadius="0"
         >
           <Menu
             currentMenu={currentMenu}
@@ -102,6 +103,7 @@ function BigBBic() {
             $padding="8px"
             $backgroundColor={currentMenu === "heart" ? palette.white : ""}
             $cursor="pointer"
+            $borderRadius="5px 0 0 5px"
             onClick={() => {
               setCurrentMenu("heart");
             }}
@@ -349,12 +351,13 @@ function BigBBic() {
           $alignItems="center"
           $borderRadius="0px"
         >
-          {toBuyList.map((item: ToBuyItem & { id: number }) => (
+          {toBuyList.map((item: ToBuyItem) => (
             <MyFlexContainer
               key={item.id}
               $position="relative"
               $gap="5px"
               $borderRadius="0px"
+              $flexShrink="0"
             >
               <input
                 type="checkbox"
@@ -390,11 +393,9 @@ function BigBBic() {
                 $overflowY="hidden"
                 onClick={() => {
                   const list = [...toBuyList];
-                  toBuyList.forEach(
-                    (toBuyItem: ToBuyItem & { id: number }, idx: number) => {
-                      if (toBuyItem.id == item.id) list.splice(idx, 1);
-                    }
-                  );
+                  toBuyList.forEach((toBuyItem: ToBuyItem, idx: number) => {
+                    if (toBuyItem.id == item.id) list.splice(idx, 1);
+                  });
                   setToBuyList(list);
 
                   const selectedItems = { ...currentSelectedItems };
@@ -439,7 +440,14 @@ function BigBBic() {
           </MyButton>
         </MyFlexContainer>
       </MyFlexContainer>
-      {popupVisible && <BillPopup setPopupVisible={setPopupVisible} />}
+      {popupVisible && (
+        <BillPopup
+          items={toBuyList.filter(
+            (item: ToBuyItem) => item.id in currentSelectedItems
+          )}
+          setPopupVisible={setPopupVisible}
+        />
+      )}
     </MyFlexContainer>
   );
 }

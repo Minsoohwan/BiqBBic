@@ -39,6 +39,7 @@ export function getTimeCount(
   return `${hours}${hourFormat} ${minutes}${minuteFormat}`;
 }
 
-export function formatPrice(price: number) {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+export function formatPrice(price: number, useRound?: boolean) {
+  const $_price = useRound ? Math.round(price) : price;
+  return $_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
 }

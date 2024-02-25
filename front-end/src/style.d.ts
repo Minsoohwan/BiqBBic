@@ -11,6 +11,7 @@ type ItemData = {
 };
 
 type ToBuyItem = {
+  id: number | string;
   img: string;
   text: string;
   price: number;

@@ -35,6 +35,7 @@ const MyButton = styled.button<ButtonProps>`
   border-radius: 10px;
   border: 0;
   color: ${(props) => props.$color ?? palette.white};
+  width: ${(props) => props.$width};
   background-color: ${(props) =>
     props.$disabled
       ? palette.gray.gray2

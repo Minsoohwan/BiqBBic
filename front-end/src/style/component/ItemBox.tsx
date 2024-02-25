@@ -22,7 +22,8 @@ function ItemBox(props: Item & { onClick?: () => void }) {
       <ItemImg $size={presetStyle.size} $img={props.img}>
         {props.useIcon && (
           <IconBox
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsFavorite(!isFavorite);
             }}
           >
@@ -93,7 +94,8 @@ const IconBox = styled.div`
 
 const ItemText = styled.div<{ $font: string }>`
   ${({ $font }) => $font}
-  word-break:break-all;
+  width: 100%;
+  word-break: break-all;
 `;
 
 type Style = {
@@ -104,7 +106,7 @@ type Style = {
 };
 function getStyle(preset: string | undefined): Style {
   const result: Style = {
-    font: "display:block overflow: hidden text-overflow: ellipsis white-space: nowrap position: relative -webkit-line-clamp: 1 -webkit-box-orient: vertical;",
+    font: "display:-webkit-box; overflow: hidden; text-overflow: ellipsis; white-space: normal; position: relative; -webkit-line-clamp: 2; -webkit-box-orient: vertical;",
     size: "120px",
     price: "bold16",
     heart: { width: 23.3, height: 17.65 },

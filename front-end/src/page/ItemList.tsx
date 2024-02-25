@@ -13,6 +13,7 @@ import {
   selectedMenuStore,
   similerItemsStore,
 } from "../recoilStore";
+import BarcodeFetcher from "../barcode/BarcodeFetcher";
 
 interface ItemListProps {
   title?: string;
@@ -117,9 +118,13 @@ function ItemList(props: ItemListProps) {
             onClick={() => {
               setCurrentItem(item);
               setCurrentMenu("바코드검색");
-              setSismilerItems(
-                itemList.filter((other) => other.id !== item.id)
-              );
+              BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
+                if (items === "검색 결과 없음") {
+                  return;
+                }
+
+                setSismilerItems(items);
+              });
             }}
           />
         ))}

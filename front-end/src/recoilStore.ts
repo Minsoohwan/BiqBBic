@@ -14,3 +14,8 @@ export const similerItemsStore = atom<ItemData[]>({
   key: "similerItems",
   default: [],
 });
+
+export const noDataStore = atom<boolean>({
+  key: "noData",
+  default: false,
+});

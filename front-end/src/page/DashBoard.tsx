@@ -95,48 +95,21 @@ function DashBoard() {
           <MyFlexContainer $flexDirection="column" $height="100%">
             <MyContainer
               $backgroundImage="/asset/wether.png"
-              $backgroundSize="cover"
+              $backgroundSize="contain"
               $height="270px"
             />
             <MyContainer
               $backgroundImage="/asset/money.png"
-              $backgroundSize="cover"
+              $backgroundSize="contain"
               $height="84px"
             />
           </MyFlexContainer>
-          <MyFlexContainer $flexDirection="column" $height="100%">
+          <MyFlexContainer $flexDirection="column" $height="100%" $flexGrow="1">
             <MyContainer
               $backgroundImage="/asset/medicineTime.png"
-              $backgroundSize="cover"
+              $backgroundSize="contain"
               $height="130px"
             />
-            <MyFlexContainer
-              $flexGrow="1"
-              $flexDirection="column"
-              $backgroundColor="#171D36"
-              $opacity="85%"
-              $padding="20px"
-            >
-              <img
-                src="/asset/alert.png"
-                width="43.27"
-                style={{ alignSelf: "center" }}
-              />
-              <MyContainer $flexGrow="1">
-                <MyText $color={palette.white}>실내 움직임 미감지</MyText>
-                <MyText $font="title32" $color={palette.white}>
-                  {stillnessTime}
-                </MyText>
-              </MyContainer>
-              <MyContainer $flexGrow="1">
-                <MyText $font="regular14" $color={palette.white}>
-                  안전시스템 작동
-                </MyText>
-                <MyText $font="title32" $color={palette.white}>
-                  {activeTime}
-                </MyText>
-              </MyContainer>
-            </MyFlexContainer>
           </MyFlexContainer>
         </MyFlexContainer>
       </MyFlexContainer>

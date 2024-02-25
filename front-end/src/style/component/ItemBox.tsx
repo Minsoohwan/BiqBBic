@@ -5,9 +5,9 @@ import palette from "../palette";
 import { formatPrice, handleFontStyle } from "../common";
 import MyText from "../basicComponent/MyText";
 import ItemCountBox from "./ItemCountBox";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-function ItemBox(props: Item) {
+function ItemBox(props: Item & { onClick?: () => void }) {
   const [itemCount, setItemCount] = useState<number>(1);
   const [isFavorite, setIsFavorite] = useState<boolean>(!!props.favorite);
 
@@ -18,7 +18,7 @@ function ItemBox(props: Item) {
   }, [props.itemCount]);
 
   return (
-    <Wrap $size={presetStyle.size}>
+    <Wrap $size={presetStyle.size} onClick={props.onClick}>
       <ItemImg $size={presetStyle.size} $img={props.img}>
         {props.useIcon && (
           <IconBox

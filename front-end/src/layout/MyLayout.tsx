@@ -8,9 +8,9 @@ const MyLayout = ({
   backgroundColor,
 }: PropsWithChildren<LayoutProps>) => {
   return (
-    <Background background={background}>
-      <Layout $backgroundColor={backgroundColor}>{children}</Layout>
-    </Background>
+    <Layout $backgroundColor={backgroundColor} $backgroundImage={background}>
+      {children}
+    </Layout>
   );
 };
 
@@ -19,10 +19,11 @@ const Layout = styled.div<StyledComponentProps>`
   display: flex;
   flex-shrink: 0;
   gap: 24px;
-  width: calc(1024px + 50px);
-  height: calc(768px + 50px);
+  width: 100vw;
+  height: 100vh;
   min-width: 768px;
   padding: 25px;
+  background-image: url(${(props) => props.$backgroundImage});
   background-color: ${(props) => props.$backgroundColor};
 
   .calendar {

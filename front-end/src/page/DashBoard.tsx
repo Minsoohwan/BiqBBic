@@ -48,6 +48,7 @@ function DashBoard() {
           $padding="20px"
           $opacity="80%"
           $gap="15px"
+          $borderRadius="10px"
           $backgroundColor={palette.white}
         >
           {[

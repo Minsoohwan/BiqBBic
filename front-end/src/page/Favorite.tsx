@@ -77,7 +77,7 @@ function Favorite() {
             favorite={true}
             onClick={() => {
               setCurrentItem(item);
-              setCurrentMenu("바코드검색");
+              setSismilerItems([]);
               BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
                 if (items === "검색 결과 없음") {
                   setSismilerItems([]);

@@ -1,26 +1,18 @@
 import { useState } from "react";
-import MyButton from "../style/basicComponent/MyButton";
-import { MyFlexContainer } from "../style/basicComponent/MyContainer";
-import MyHr from "../style/basicComponent/MyHr";
-import MyText, { MyLinkText } from "../style/basicComponent/MyText";
-import { formatPrice } from "../style/common";
-import ItemBox from "../style/component/ItemBox";
-import ItemCountBox from "../style/component/ItemCountBox";
-import palette from "../style/palette";
 import { useSetRecoilState } from "recoil";
 import {
   currentItemStore,
   selectedMenuStore,
   similerItemsStore,
 } from "../recoilStore";
-import BarcodeFetcher from "../barcode/BarcodeFetcher";
+import ItemList from "./ItemList";
 
 function Home() {
   const setCurrentMenu = useSetRecoilState(selectedMenuStore);
   const setCurrentItem = useSetRecoilState(currentItemStore);
   const setSismilerItems = useSetRecoilState(similerItemsStore);
 
-  const [favoriteItems, setFavoriteItems] = useState<ItemData[]>([
+  const [homeItems, setHomeItems] = useState<ItemData[]>([
     {
       id: 8809369710016,
       text: "프라임하우스 프라임하우스 에스프레소 커피 1kg",
@@ -83,43 +75,7 @@ function Home() {
     },
   ]);
 
-  return (
-    <>
-      <MyText $font="bold16" $color={palette.gray.gray4}>
-        오늘의 행사 상품
-      </MyText>
-      <MyFlexContainer
-        $overflowX="auto"
-        $gap="10px"
-        $flexGrow="1"
-        $height="100%"
-        $flexWrap="wrap"
-      >
-        {favoriteItems.map((item: ItemData) => (
-          <ItemBox
-            key={item.id}
-            preset="large"
-            img={item.img}
-            useIcon={true}
-            text={item.text}
-            price={item.price}
-            onClick={() => {
-              setCurrentItem(item);
-              setCurrentMenu("바코드검색");
-              BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
-                if (items === "검색 결과 없음") {
-                  setSismilerItems([]);
-                  return;
-                }
-
-                setSismilerItems(items);
-              });
-            }}
-          />
-        ))}
-      </MyFlexContainer>
-    </>
-  );
+  return <ItemList title="오늘의 행사 상품" items={homeItems} />;
 }
 
 export default Home;

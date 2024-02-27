@@ -63,6 +63,8 @@ function BigBBic() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   function searchItems() {
+    if (currentMenu == "주문내역") return;
+
     if (searchRef.current) {
       if (isNaN(Number(searchRef.current.value))) {
         BarcodeFetcher.getItems(searchRef.current.value).then(
@@ -202,7 +204,8 @@ function BigBBic() {
       <ItemContainer>
         {(currentMenu === "홈" ||
           currentMenu === "바코드검색" ||
-          currentMenu === "검색") && (
+          currentMenu === "검색" ||
+          currentMenu === "주문내역") && (
           <MyFlexContainer
             $justifyContent="center"
             $alignItems="center"
@@ -211,7 +214,11 @@ function BigBBic() {
             <SearchPanel $width="100%">
               <SearchBox
                 ref={searchRef}
-                placeholder="검색어 또는 바코드 숫자를 입력해주세요."
+                placeholder={
+                  currentMenu === "주문내역"
+                    ? "주문한 상품을 검색할 수 있어요"
+                    : "검색어 또는 바코드 숫자를 입력해주세요."
+                }
                 onKeyUp={(e) => {
                   if (e.code !== "Enter") return;
 
@@ -225,6 +232,16 @@ function BigBBic() {
               />
             </SearchPanel>
           </MyFlexContainer>
+        )}
+        {currentMenu == "주문내역" && (
+          <MyContainer
+            $height="100%"
+            $width="100%"
+            $backgroundImage="asset/orderment.png"
+            $backgroundPosition="center"
+            $backgroundSize="contain"
+            $backgroundRepeat="no-repeat"
+          />
         )}
         {currentMenu == "검색" && (
           <ItemList title="검색 결과" items={searchResult} />

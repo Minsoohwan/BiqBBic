@@ -34,6 +34,7 @@ import BarcodeFetcher from "../barcode/BarcodeFetcher";
 import Information from "../style/component/Information";
 import { useNavigate } from "react-router";
 import EmptyVSpace from "../style/basicComponent/EmptyVSpace";
+import { CustomerServiceModal } from "../style/component/CustomerServiceModal";
 
 function BigBBic() {
   const nav = useNavigate();
@@ -168,7 +169,11 @@ function BigBBic() {
           ))}
         </MyFlexContainer>
         <ButtonContainer>
-          <CallButton>
+          <CallButton
+            onClick={() => {
+              setModalGather({ ...modalGather, customerServiceModal: true });
+            }}
+          >
             <MyFlexContainer
               $alignContent="center"
               $gap="0"
@@ -486,6 +491,7 @@ function BigBBic() {
           (item: ToBuyItem) => item.id in currentSelectedItems
         )}
       />
+      <CustomerServiceModal />
     </MyFlexContainer>
   );
 }

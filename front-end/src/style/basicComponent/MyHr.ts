@@ -6,6 +6,7 @@ const MyHr = styled.div<StyledComponentProps>`
   height: 1px;
   background-color: ${(props) => props.$backgroundColor ?? palette.gray.gray2};
   flex-shrink: 0;
+  margin: ${(props) => props.$margin};
 `;
 
 export default MyHr;

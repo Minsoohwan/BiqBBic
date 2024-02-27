@@ -10,8 +10,11 @@ import RadioFalse from "../../asset/radioFalse.svg";
 import RadioTrue from "../../asset/radioTrue.svg";
 import ShippingGif from "../../asset/shipping.gif";
 import PaymentGif from "../../asset/cardPayment.gif";
+import { ReactComponent as BankbookSvg } from "../../asset/bankBook.svg";
 import { useRecoilState } from "recoil";
 import { modalGatherStore } from "../../recoilStore";
+import { RowDiv } from "../basicComponent/MyContainer";
+import { CloesIcon, PopupContent, Shadow } from "../basicComponent/MyModal";
 
 function formatDate(date: Date) {
   const month = date.getMonth() + 1; // 월 (0부터 시작하므로 +1)
@@ -48,6 +51,10 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
     else setOrderProcess("계좌이체 주문 접수");
   };
 
+  const closeFunc = () => {
+    setModalGather({ ...modalGather, orderModal: false });
+  };
+
   useEffect(() => {
     if (orderProcess === "카드 결제") {
       setTimeout(() => {
@@ -71,33 +78,22 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
       add7.setDate(add7.getDate() + 7); // 현재 날짜에서 7일을 더하기
 
       setAddDayList([formatDate(today), formatDate(add2), formatDate(add7)]); // 현재 날짜에서 2일을 더하기
-    } else setOrderProcess("주문서");
+    } else {
+      setOrderProcess("주문서");
+      setPaymentType("카드");
+    }
   }, [modalGather.orderModal]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     setOrderProcess("주문서");
-  //   };
-  // }, []);
 
   return (
     <React.Fragment>
       {modalGather.orderModal && (
-        <Shadow
-          onClick={() => {
-            setModalGather({ ...modalGather, orderModal: false });
-          }}
-        >
+        <Shadow>
           <PopupContent
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
-            <CloesIcon
-              onClick={() => {
-                setModalGather({ ...modalGather, orderModal: false });
-              }}
-            />
+            <CloesIcon onClick={closeFunc} />
             <MyText $font="title32" $color={palette.green.green4}>
               {orderProcess}
             </MyText>
@@ -128,12 +124,54 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
                   $width="150px"
                   $font="bold20"
                   $backgroundColor="orange"
+                  onClick={closeFunc}
                 >
                   닫기
                 </MyButton>
               </CenterWrap>
             ) : orderProcess === "계좌이체 주문 접수" ? (
-              <></>
+              <CenterWrap>
+                <MyText $font="title32">주문 접수되었습니다.</MyText>
+                <MyText $margin="10px 0 0 0" $font="title32">
+                  아래 계좌로 <span className="day">{addDayList[2]} </span>
+                  까지 입금하시면,
+                </MyText>
+                <MyText $margin="10px 0 0 0" $font="title32">
+                  평일 기준 2-3일 내 배송됩니다.
+                </MyText>
+                <RowDiv $columnGap="30px" $margin="88px 0 120px 0">
+                  <BankbookSvg />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "15px",
+                    }}
+                  >
+                    <RowDiv $width="fit-content" $columnGap="15px">
+                      <MyText $font="bold20" $color={palette.gray.gray4}>
+                        입금 계좌
+                      </MyText>
+                      <MyText $font="bold20">농협 110-456-789 (빅삑)</MyText>
+                    </RowDiv>
+                    <RowDiv $width="fit-content" $columnGap="15px">
+                      <MyText $font="bold20" $color={palette.gray.gray4}>
+                        입금 금액
+                      </MyText>
+                      <MyText $font="bold20">{formatPrice(price)}</MyText>
+                    </RowDiv>
+                  </div>
+                </RowDiv>
+                <MyButton
+                  $size="large"
+                  $width="150px"
+                  $font="bold20"
+                  $backgroundColor="orange"
+                  onClick={closeFunc}
+                >
+                  닫기
+                </MyButton>
+              </CenterWrap>
             ) : (
               <>
                 <ContentContainer>
@@ -299,30 +337,6 @@ function BillPopup({ items }: { items: ToBuyItem[] }) {
 
 export default BillPopup;
 
-const Shadow = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  -webkit-transform: translate3d(0, 0, 10px);
-`;
-
-const PopupContent = styled.div`
-  position: relative;
-  padding: 25px;
-  width: 800px;
-  height: 650px;
-  border-radius: 10px;
-  background-color: ${palette.white};
-  z-index: 100;
-  -webkit-transform: translate3d(0, 0, 20px);
-`;
-
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -362,20 +376,6 @@ const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const CloesIcon = styled.div`
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  width: 24px;
-  height: 24px;
-  background-image: url("/asset/close.png");
-  background-size: cover;
-  cursor: pointer;
-  z-index: 101;
-  -webkit-transform: translate3d(0, 0, 21px);
-`;
-
 const PaymentWrap = styled.div`
   display: flex;
   gap: 30px;

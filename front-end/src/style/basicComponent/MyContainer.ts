@@ -56,3 +56,14 @@ export const MyFlexContainer = styled(MyContainer)`
   gap: ${(props) => props.$gap ?? "20px"};
   flex-wrap: ${(props) => props.$flexWrap};
 `;
+
+export const RowDiv = styled.div<StyledComponentProps>`
+  width: ${(props) => (props.$width ? props.$width : "100%")};
+  display: flex;
+  column-gap: ${(props) => (props.$columnGap ? props.$columnGap : "20px")};
+  justify-content: ${(props) =>
+    props.$justifyContent ? props.$justifyContent : "center"};
+  align-items: ${(props) => (props.$alignItems ? props.$alignItems : "center")};
+  position: relative;
+  margin: ${(props) => props.$margin};
+`;

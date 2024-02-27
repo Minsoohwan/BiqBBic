@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import MyButton from "../style/basicComponent/MyButton";
 import { MyFlexContainer } from "../style/basicComponent/MyContainer";
 import MyHr from "../style/basicComponent/MyHr";
@@ -14,8 +14,9 @@ import {
   similerItemsStore,
 } from "../recoilStore";
 import BarcodeFetcher from "../barcode/BarcodeFetcher";
+import EmptyVSpace from "../style/basicComponent/EmptyVSpace";
 
-interface ItemListProps {
+export interface ItemListProps {
   title?: string;
   useCount?: boolean;
   items?: ItemData[];
@@ -93,12 +94,24 @@ function ItemList(props: ItemListProps) {
     ]
   );
 
+  useEffect(() => {
+    if (items) setItemList(items);
+  }, [items]);
+
   return (
     <>
-      <MyText $font="bold24" $color={palette.gray.gray4}>
-        {title ?? "자주 구매한 상품 다시 구매하기"}
-      </MyText>
-      <MyHr />
+      {title && (
+        <div>
+          <MyText
+            $font="bold24"
+            $color={palette.gray.gray4}
+            $margin="8px 0 6px 0"
+          >
+            {title}
+          </MyText>
+          <MyHr />
+        </div>
+      )}
       <MyFlexContainer
         $overflowX="auto"
         $gap="10px"
@@ -117,7 +130,7 @@ function ItemList(props: ItemListProps) {
             price={item.price}
             onClick={() => {
               setCurrentItem(item);
-              setCurrentMenu("바코드검색");
+              setSismilerItems([]);
               BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
                 if (items === "검색 결과 없음") {
                   setSismilerItems([]);

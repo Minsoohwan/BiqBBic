@@ -309,6 +309,7 @@ const Shadow = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
+  -webkit-transform: translate3d(0, 0, 10px);
 `;
 
 const PopupContent = styled.div`
@@ -319,6 +320,7 @@ const PopupContent = styled.div`
   border-radius: 10px;
   background-color: ${palette.white};
   z-index: 100;
+  -webkit-transform: translate3d(0, 0, 20px);
 `;
 
 const ContentContainer = styled.div`
@@ -371,6 +373,7 @@ const CloesIcon = styled.div`
   background-size: cover;
   cursor: pointer;
   z-index: 101;
+  -webkit-transform: translate3d(0, 0, 21px);
 `;
 
 const PaymentWrap = styled.div`

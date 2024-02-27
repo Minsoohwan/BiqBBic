@@ -499,6 +499,7 @@ const CallButton = styled.button`
   padding: 10px 5px;
   background-color: ${palette.sub.orange};
   border-radius: 10px;
+  border: none;
   cursor: pointer;
 `;
 

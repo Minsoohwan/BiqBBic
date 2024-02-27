@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useRef, useState } from "react";
 import palette from "../palette";
 import styled from "styled-components";
 import MyText from "../basicComponent/MyText";
@@ -36,7 +36,9 @@ function Information({
         <ContentContainer>
           <InfoBox />
           <EmptyVSpace $height="17px" />
-          <GifBox></GifBox>
+          <video controls style={{ width: "100%" }}>
+            <source src={require("../../asset/aaa.mp4")} type="video/mp4" />
+          </video>
         </ContentContainer>
       </PopupContent>
     </Shadow>
@@ -56,15 +58,17 @@ const Shadow = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 50;
+  -webkit-transform: translate3d(0, 0, 10px);
 `;
 
 const PopupContent = styled.div`
   position: relative;
   width: 800px;
-  height: 650px;
+  height: 715px;
   border-radius: 10px;
   background-color: ${palette.white};
   z-index: 100;
+  -webkit-transform: translate3d(0, 0, 20px);
 `;
 
 const TitleContainer = styled.div`
@@ -108,4 +112,5 @@ const CloesIcon = styled.div`
   background-size: cover;
   cursor: pointer;
   z-index: 101;
+  -webkit-transform: translate3d(0, 0, 21px);
 `;

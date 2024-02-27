@@ -68,7 +68,7 @@ export default ItemBox;
 const Wrap = styled.div<{ $size: string }>`
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
   width: ${({ $size }) => $size};
   flex-shrink: 0;
 `;

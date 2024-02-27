@@ -19,7 +19,7 @@ export const MyContainer = styled.div<StyledComponentProps>`
   border: ${(props) => props.$border};
   border-left: ${(props) => props.$borderLeft};
   border-right: ${(props) => props.$borderRight};
-  border-radius: ${(props) => props.$borderRadius ?? "10px"};
+  border-radius: ${(props) => props.$borderRadius};
   opacity: ${(props) => props.$opacity ?? "100%"};
   flex-grow: ${(props) => props.$flexGrow};
   flex-shrink: ${(props) => props.$flexShrink};
@@ -55,4 +55,15 @@ export const MyFlexContainer = styled(MyContainer)`
   align-items: ${(props) => props.$alignItems ?? "flex-start"};
   gap: ${(props) => props.$gap ?? "20px"};
   flex-wrap: ${(props) => props.$flexWrap};
+`;
+
+export const RowDiv = styled.div<StyledComponentProps>`
+  width: ${(props) => (props.$width ? props.$width : "100%")};
+  display: flex;
+  column-gap: ${(props) => (props.$columnGap ? props.$columnGap : "20px")};
+  justify-content: ${(props) =>
+    props.$justifyContent ? props.$justifyContent : "center"};
+  align-items: ${(props) => (props.$alignItems ? props.$alignItems : "center")};
+  position: relative;
+  margin: ${(props) => props.$margin};
 `;

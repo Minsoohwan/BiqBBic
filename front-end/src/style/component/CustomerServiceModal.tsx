@@ -159,7 +159,7 @@ const ChooseBox = styled.div<chooseBoxProps>`
 const WaitingTimeBox = styled.div`
   width: 100%;
   height: 72px;
-  margin: 30px 0 53px 0;
+  margin: 30px 0 50px 0;
   row-gap: 10px;
   display: flex;
   flex-direction: column;

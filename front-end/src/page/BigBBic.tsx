@@ -205,6 +205,7 @@ function BigBBic() {
         {(currentMenu === "홈" ||
           currentMenu === "바코드검색" ||
           currentMenu === "검색" ||
+          currentMenu === "상품" ||
           currentMenu === "주문내역") && (
           <MyFlexContainer
             $justifyContent="center"
@@ -267,7 +268,7 @@ function BigBBic() {
                 <MyFlexContainer
                   $flexDirection="column"
                   $gap="8px"
-                  $height="100%"
+                  $height="280px"
                 >
                   <MyText $font="bold24">{currentItem.text}</MyText>
                   <MyText $font="bold28" $color={palette.main.blue}>

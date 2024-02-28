@@ -115,8 +115,7 @@ function ItemList(props: ItemListProps) {
       <MyFlexContainer
         $overflowX="auto"
         $gap="10px"
-        $flexGrow="1"
-        $height="100%"
+        $height="fit-content"
         $flexWrap="wrap"
       >
         {itemList.map((item: ItemData, idx) => (

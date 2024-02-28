@@ -1,13 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.ab478d82.css",
-    "main.js": "/static/js/main.61588f2a.js",
+    "main.js": "/static/js/main.773a0d67.js",
     "static/js/748.06d5ae52.chunk.js": "/static/js/748.06d5ae52.chunk.js",
     "static/media/aaa.mp4": "/static/media/aaa.b3899e54bc44f2441e36.mp4",
     "static/media/shipping.gif": "/static/media/shipping.0fc453e8928ed6164b46.gif",
     "static/media/NanumSquareNeo-R.ttf": "/static/media/NanumSquareNeo-R.5076032d79b49a26baa2.ttf",
     "static/media/NanumSquareNeo-B.ttf": "/static/media/NanumSquareNeo-B.7f4dbb792cbda9fc36a4.ttf",
     "static/media/NanumSquareNeo-H.ttf": "/static/media/NanumSquareNeo-H.ae9b1d2bc5eda16ab47c.ttf",
+    "static/media/bankBook.svg": "/static/media/bankBook.bfd6335f29b69c5e832933398fed7155.svg",
     "static/media/calendar.svg": "/static/media/calendar.80122510e1f9004731a4b27fea4ae9fe.svg",
     "static/media/cardPayment.gif": "/static/media/cardPayment.b09527bd22407ce55504.gif",
     "static/media/phone.svg": "/static/media/phone.6955875c5a19b8f55c390738550a5558.svg",
@@ -25,6 +26,6 @@
   },
   "entrypoints": [
     "static/css/main.ab478d82.css",
-    "static/js/main.61588f2a.js"
+    "static/js/main.773a0d67.js"
   ]
 }

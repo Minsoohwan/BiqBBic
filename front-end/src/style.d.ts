@@ -11,20 +11,16 @@ type ItemData = {
 };
 
 type ToBuyItem = {
-  id: number | string;
+  id: number;
   img: string;
   text: string;
   price: number;
   itemCount: number;
 };
 
-type Item = {
+type Item = { item: ItemData } & {
   preset: string;
-  img: string;
-  text?: string;
-  price?: number;
   useIcon?: boolean;
-  favorite?: boolean;
   buyCount?: number;
   imgOnly?: boolean;
   useCount?: boolean;

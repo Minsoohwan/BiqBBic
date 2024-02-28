@@ -10,12 +10,12 @@ class BarcodeScanner {
   timer: NodeJS.Timeout | null;
   isFetching: boolean;
   setMenu: SetterOrUpdater<string>;
-  setItem: SetterOrUpdater<ItemData | "검색 결과 없음" | null>;
+  setItem: SetterOrUpdater<ItemData | null>;
   setSimilerItems: SetterOrUpdater<ItemData[]>;
 
   constructor(
     setMenu: SetterOrUpdater<string>,
-    setItem: SetterOrUpdater<ItemData | "검색 결과 없음" | null>,
+    setItem: SetterOrUpdater<ItemData | null>,
     setSimilerItems: SetterOrUpdater<ItemData[]>
   ) {
     this.input = "";

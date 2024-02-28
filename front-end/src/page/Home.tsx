@@ -6,6 +6,7 @@ import {
   similerItemsStore,
 } from "../recoilStore";
 import ItemList from "./ItemList";
+import Carousel from "../style/component/Carousel";
 
 function Home() {
   const setCurrentMenu = useSetRecoilState(selectedMenuStore);
@@ -75,7 +76,18 @@ function Home() {
     },
   ]);
 
-  return <ItemList title="오늘의 행사 상품" items={homeItems} />;
+  return (
+    <>
+      <Carousel
+        slides={[
+          "/asset/banner1.png",
+          "/asset/banner2.png",
+          "/asset/banner3.png",
+        ]}
+      />
+      <ItemList title="오늘의 행사 상품" items={homeItems} />;
+    </>
+  );
 }
 
 export default Home;

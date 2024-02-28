@@ -5,7 +5,7 @@ export const selectedMenuStore = atom<string>({
   default: "바코드검색",
 });
 
-export const currentItemStore = atom<ItemData | "검색 결과 없음" | null>({
+export const currentItemStore = atom<ItemData | null>({
   key: "currentItem",
   default: null,
 });

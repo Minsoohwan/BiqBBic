@@ -1,6 +1,9 @@
 import { useState } from "react";
 import MyButton from "../style/basicComponent/MyButton";
-import { MyFlexContainer } from "../style/basicComponent/MyContainer";
+import {
+  MyContainer,
+  MyFlexContainer,
+} from "../style/basicComponent/MyContainer";
 import MyHr from "../style/basicComponent/MyHr";
 import MyText, { MyLinkText } from "../style/basicComponent/MyText";
 import { formatPrice } from "../style/common";
@@ -25,10 +28,16 @@ function Favorite() {
 
   return (
     <>
-      <MyText $font="bold24" $color={palette.gray.gray4}>
-        '좋아요'가 눌린 상품 목록
-      </MyText>
-      <MyHr />
+      <div style={{ width: "100%" }}>
+        <MyText
+          $font="bold24"
+          $color={palette.gray.gray4}
+          $margin="8px 0 6px 0"
+        >
+          '좋아요'가 눌린 상품 목록
+        </MyText>
+        <MyHr />
+      </div>
       <MyFlexContainer
         $overflowX="auto"
         $gap="10px"

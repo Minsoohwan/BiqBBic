@@ -1,6 +1,5 @@
-import React, { MouseEvent, TouchEvent, useEffect, useState } from "react";
 import Slider from "react-slick";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

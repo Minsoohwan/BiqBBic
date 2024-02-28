@@ -101,7 +101,7 @@ function ItemList(props: ItemListProps) {
   return (
     <>
       {title && (
-        <div>
+        <div style={{ width: "100%" }}>
           <MyText
             $font="bold24"
             $color={palette.gray.gray4}

@@ -23,6 +23,7 @@ import {
   currentItemStore,
   modalGatherStore,
   noDataStore,
+  searchResultStore,
   selectedMenuStore,
   similerItemsStore,
 } from "../recoilStore";
@@ -44,12 +45,8 @@ function BigBBic() {
 
   const [currentMenu, setCurrentMenu] = useRecoilState(selectedMenuStore);
   const [currentItem, setCurrentItem] = useRecoilState(currentItemStore);
-  const [isNoData, setisNoData] = useRecoilState(noDataStore);
   const [similerItems, setSismilerItems] = useRecoilState(similerItemsStore);
-
-  const [searchResult, setSearchResult] = useState<
-    ItemData[] | "검색 결과 없음"
-  >([]);
+  const [searchResult, setSearchResult] = useRecoilState(searchResultStore);
 
   const [itemCount, setItemCount] = useState<number>(1);
 
@@ -65,37 +62,33 @@ function BigBBic() {
 
   const searchRef = useRef<HTMLInputElement>(null);
 
-  function searchItems() {
+  function searchItems(value: string | number) {
     if (currentMenu == "주문내역") return;
 
-    if (searchRef.current) {
-      if (isNaN(Number(searchRef.current.value))) {
-        BarcodeFetcher.getItems(searchRef.current.value).then(
-          ({ data: items }) => {
-            if (items === "검색 결과 없음") {
-              setSearchResult("검색 결과 없음");
-              setCurrentMenu("검색");
-              return;
-            }
-
-            setCurrentItem(null);
-            setCurrentMenu("검색");
-            setSearchResult(items);
-          }
-        );
-      } else {
-        BarcodeFetcher.getItemData(searchRef.current.value).then(({ data }) => {
-          if (data === "검색 결과 없음") {
-            setSearchResult("검색 결과 없음");
-            setCurrentMenu("검색");
-            return;
-          }
-
-          setCurrentItem(data.item);
+    if (isNaN(Number(value))) {
+      BarcodeFetcher.getItems(value).then(({ data: items }) => {
+        if (items === "검색 결과 없음") {
+          setSearchResult("검색 결과 없음");
           setCurrentMenu("검색");
-          setSismilerItems(data.similerItems);
-        });
-      }
+          return;
+        }
+
+        setCurrentItem(null);
+        setCurrentMenu("검색");
+        setSearchResult(items);
+      });
+    } else {
+      BarcodeFetcher.getItemData(value).then(({ data }) => {
+        if (data === "검색 결과 없음") {
+          setSearchResult("검색 결과 없음");
+          setCurrentMenu("검색");
+          return;
+        }
+
+        setCurrentItem(data.item);
+        setCurrentMenu("검색");
+        setSismilerItems(data.similerItems);
+      });
     }
   }
 
@@ -216,6 +209,7 @@ function BigBBic() {
       <ItemContainer>
         {(currentMenu === "홈" ||
           currentMenu === "바코드검색" ||
+          currentMenu === "상품 분류" ||
           currentMenu === "검색" ||
           currentMenu === "상품" ||
           currentMenu === "주문내역") && (
@@ -235,12 +229,12 @@ function BigBBic() {
                 onKeyUp={(e) => {
                   if (e.code !== "Enter") return;
 
-                  searchItems();
+                  if (searchRef.current) searchItems(searchRef.current.value);
                 }}
               />
               <SearchIcon
                 onClick={() => {
-                  searchItems();
+                  if (searchRef.current) searchItems(searchRef.current.value);
                 }}
               />
             </SearchPanel>

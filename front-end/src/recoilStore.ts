@@ -10,6 +10,11 @@ export const currentItemStore = atom<ItemData | null>({
   default: null,
 });
 
+export const searchResultStore = atom<ItemData[] | "검색 결과 없음">({
+  key: "searchResult",
+  default: [],
+});
+
 export const similerItemsStore = atom<ItemData[]>({
   key: "similerItems",
   default: [],

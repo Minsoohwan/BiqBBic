@@ -6,10 +6,13 @@ import { formatPrice, handleFontStyle } from "../common";
 import MyText from "../basicComponent/MyText";
 import ItemCountBox from "./ItemCountBox";
 import { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { favoriteItemsStore } from "../../recoilStore";
 
 function ItemBox(props: Item & { onClick?: () => void }) {
   const [itemCount, setItemCount] = useState<number>(1);
-  const [isFavorite, setIsFavorite] = useState<boolean>(!!props.favorite);
+
+  const [favoriteItems, setFavoriteItems] = useRecoilState(favoriteItemsStore);
 
   const presetStyle = getStyle(props.preset);
 
@@ -19,15 +22,25 @@ function ItemBox(props: Item & { onClick?: () => void }) {
 
   return (
     <Wrap $size={presetStyle.size} onClick={props.onClick}>
-      <ItemImg $size={presetStyle.size} $img={props.img}>
+      <ItemImg $size={presetStyle.size} $img={props.item.img}>
         {props.useIcon && (
           <IconBox
             onClick={(e) => {
               e.stopPropagation();
-              setIsFavorite(!isFavorite);
+
+              const newFavorite = (() => {
+                if (favoriteItems.some((item) => item.id === props.item.id)) {
+                  return favoriteItems.filter(
+                    (item) => item.id !== props.item.id
+                  );
+                } else {
+                  return [...favoriteItems, props.item];
+                }
+              })();
+              setFavoriteItems(newFavorite);
             }}
           >
-            {isFavorite ? (
+            {favoriteItems.some((item) => item.id === props.item.id) ? (
               <HeartFill
                 width={presetStyle.heart.width}
                 height={presetStyle.heart.height}
@@ -45,7 +58,7 @@ function ItemBox(props: Item & { onClick?: () => void }) {
         <MyText $font="bold20">{props.buyCount}번 구매</MyText>
       )}
       {!props.imgOnly && (
-        <ItemText $font={presetStyle.font}>{props.text}</ItemText>
+        <ItemText $font={presetStyle.font}>{props.item.text}</ItemText>
       )}
       {props.useCount && (
         <ItemCountBox
@@ -54,9 +67,9 @@ function ItemBox(props: Item & { onClick?: () => void }) {
           onCountChanged={props.onCountChanged}
         />
       )}
-      {!props.imgOnly && props.price && (
+      {!props.imgOnly && props.item.price && (
         <MyText $font={presetStyle.price} $color={palette.main.blue}>
-          {formatPrice(props.price * itemCount)}
+          {formatPrice(props.item.price * itemCount)}
         </MyText>
       )}
     </Wrap>

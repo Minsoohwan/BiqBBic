@@ -273,7 +273,12 @@ function BigBBic() {
         {currentMenu === "상품" && currentItem && (
           <>
             <MyFlexContainer $gap="20px">
-              <ItemBox preset="xlarge" img={currentItem.img} useIcon={true} />
+              <ItemBox
+                preset="xlarge"
+                item={currentItem}
+                imgOnly={true}
+                useIcon={true}
+              />
               <MyFlexContainer
                 $flexDirection="column"
                 $gap="8px"
@@ -358,10 +363,8 @@ function BigBBic() {
                   <ItemBox
                     key={idx}
                     preset="small"
-                    img={item.img}
+                    item={item}
                     useIcon={true}
-                    text={item.text}
-                    price={item.price}
                     onClick={() => {
                       setCurrentItem(item);
                       setCurrentMenu("바코드검색");
@@ -444,9 +447,12 @@ function BigBBic() {
               />
               <ItemBox
                 preset="small"
-                img={item.img}
-                text={item.text}
-                price={item.price}
+                item={{
+                  id: item.id,
+                  img: item.img,
+                  text: item.text,
+                  price: item.price,
+                }}
                 useCount={true}
                 itemCount={item.itemCount}
                 onCountChanged={(count) => {
@@ -561,6 +567,7 @@ const ItemContainer = styled.div`
   padding: 25px;
   border-radius: 10px;
   overflow: scroll;
+  align-items: flex-start;
 `;
 
 const SearchBox = styled.input`

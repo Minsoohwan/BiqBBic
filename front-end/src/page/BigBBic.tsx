@@ -35,6 +35,7 @@ import Information from "../style/component/Information";
 import { useNavigate } from "react-router";
 import EmptyVSpace from "../style/basicComponent/EmptyVSpace";
 import { CustomerServiceModal } from "../style/component/CustomerServiceModal";
+import { ItemSort } from "./ItemSort";
 
 function BigBBic() {
   const nav = useNavigate();
@@ -403,6 +404,7 @@ function BigBBic() {
         {currentMenu === "다시 주문" && (
           <ItemList title="자주 구매한 상품 다시 구매하기" />
         )}
+        {currentMenu === "상품 분류" && <ItemSort />}
       </ItemContainer>
       <MyFlexContainer
         $flexShrink="0"

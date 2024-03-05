@@ -64,9 +64,7 @@ function DashBoard() {
               text1: "윤슬",
               text2: "나에게 딱 맞는 스타일",
               iconImage: "/asset/yunseol.png",
-              onClick: () => {
-                alert("준비중인 서비스 입니다.(3월 초 이내)");
-              },
+              linkTo: "/yunseul",
             },
             {
               id: "homeDoctor",

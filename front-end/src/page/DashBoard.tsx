@@ -53,6 +53,7 @@ function DashBoard() {
         >
           <MyFlexContainer
             $flexDirection="column"
+            $flexShrink="0"
             $padding="20px"
             $opacity="80%"
             $gap="15px"
@@ -96,7 +97,7 @@ function DashBoard() {
               />
             ))}
           </MyFlexContainer>
-          <MyFlexContainer $flexGrow="1">
+          <MyFlexContainer $flexGrow="1" $flexShrink="0">
             <MyFlexContainer $flexDirection="column" $height="100%">
               <MyContainer
                 $backgroundImage="/asset/wether.png"

@@ -7,6 +7,7 @@ import {
 } from "../recoilStore";
 import ItemList from "./ItemList";
 import Carousel from "../style/component/Carousel";
+import styled from "styled-components";
 
 function Home() {
   const setCurrentMenu = useSetRecoilState(selectedMenuStore);

@@ -13,6 +13,7 @@ import MyButton from "../style/basicComponent/MyButton";
 import { useEffect, useState } from "react";
 import { getTimeCount } from "../style/common";
 import { useNavigate } from "react-router";
+import HomeDoctorPopup from "../style/component/HomeDoctorPopup";
 
 // TODO 20240215
 // 반응형 구현
@@ -26,6 +27,8 @@ function DashBoard() {
   const [activeTime, setActiveTime] = useState<string>(
     getTimeCount(currentTime - pastTime, { minute: "분 전" })
   );
+
+  const [showDoctorModal, setShowDoctorModal] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -41,77 +44,91 @@ function DashBoard() {
   }, []);
 
   return (
-    <MyLayout background="/asset/dashBoardBackground.png">
-      <MyFlexContainer $flexDirection="column" $height="100%">
+    <>
+      <MyLayout background="/asset/dashBoardBackground.png">
         <MyFlexContainer
+          $borderRadius="0"
           $flexDirection="column"
-          $padding="20px"
-          $opacity="80%"
-          $gap="15px"
-          $borderRadius="10px"
-          $backgroundColor={palette.white}
+          $height="100%"
         >
-          {[
-            {
-              id: "biqBbic",
-              text1: "빅삑",
-              text2: "바코드 쇼핑",
-              iconImage: "/asset/barcode-scanner.png",
-              linkTo: "/big-bbic",
-            },
-            {
-              id: "yunseol",
-              text1: "윤슬",
-              text2: "나에게 딱 맞는 스타일",
-              iconImage: "/asset/yunseol.png",
-              onClick: () => {
-                alert("준비중인 서비스 입니다.(3월 초 이내)");
+          <MyFlexContainer
+            $flexDirection="column"
+            $padding="20px"
+            $opacity="80%"
+            $gap="15px"
+            $borderRadius="10px"
+            $backgroundColor={palette.white}
+          >
+            {[
+              {
+                id: "biqBbic",
+                text1: "빅삑",
+                text2: "바코드 쇼핑",
+                iconImage: "/asset/barcode-scanner.png",
+                linkTo: "/big-bbic",
               },
-            },
-            {
-              id: "homeDoctor",
-              text1: "홈닥터",
-              text2: "비대면 진료",
-              iconImage: "/asset/health-clinic.png",
-              onClick: () => {
-                alert("준비중인 서비스 입니다.");
+              {
+                id: "yunseol",
+                text1: "윤슬",
+                text2: "나에게 딱 맞는 스타일",
+                iconImage: "/asset/yunseol.png",
+                onClick: () => {
+                  alert("준비중인 서비스 입니다.(3월 초 이내)");
+                },
               },
-            },
-          ].map(({ id, text1, text2, iconImage, linkTo, onClick }, idx) => (
-            <ServiceItem
-              key={id}
-              text1={text1}
-              text2={text2}
-              iconImage={iconImage}
-              linkTo={linkTo}
-              onClick={onClick}
-            />
-          ))}
-        </MyFlexContainer>
-        <MyFlexContainer $flexGrow="1">
-          <MyFlexContainer $flexDirection="column" $height="100%">
-            <MyContainer
-              $backgroundImage="/asset/wether.png"
-              $backgroundSize="contain"
-              $height="270px"
-            />
-            <MyContainer
-              $backgroundImage="/asset/money.png"
-              $backgroundSize="contain"
-              $height="84px"
-            />
+              {
+                id: "homeDoctor",
+                text1: "홈닥터",
+                text2: "비대면 진료",
+                iconImage: "/asset/health-clinic.png",
+                onClick: () => {
+                  setShowDoctorModal(true);
+                },
+              },
+            ].map(({ id, text1, text2, iconImage, linkTo, onClick }, idx) => (
+              <ServiceItem
+                key={id}
+                text1={text1}
+                text2={text2}
+                iconImage={iconImage}
+                linkTo={linkTo}
+                onClick={onClick}
+              />
+            ))}
           </MyFlexContainer>
-          <MyFlexContainer $flexDirection="column" $height="100%" $flexGrow="1">
-            <MyContainer
-              $backgroundImage="/asset/medicineTime.png"
-              $backgroundSize="contain"
-              $height="130px"
-            />
+          <MyFlexContainer $flexGrow="1">
+            <MyFlexContainer $flexDirection="column" $height="100%">
+              <MyContainer
+                $backgroundImage="/asset/wether.png"
+                $backgroundSize="contain"
+                $height="270px"
+              />
+              <MyContainer
+                $backgroundImage="/asset/money.png"
+                $backgroundSize="contain"
+                $height="84px"
+              />
+            </MyFlexContainer>
+            <MyFlexContainer
+              $flexDirection="column"
+              $height="100%"
+              $flexGrow="1"
+            >
+              <MyContainer
+                $backgroundImage="/asset/medicineTime.png"
+                $backgroundSize="contain"
+                $height="130px"
+              />
+            </MyFlexContainer>
           </MyFlexContainer>
         </MyFlexContainer>
-      </MyFlexContainer>
-      <Calendar className="calendar" width="40%" height="100%" />
-    </MyLayout>
+        <Calendar className="calendar" width="40%" height="100%" />
+      </MyLayout>
+
+      {showDoctorModal && (
+        <HomeDoctorPopup setPopupVisible={setShowDoctorModal} />
+      )}
+    </>
   );
 }
 

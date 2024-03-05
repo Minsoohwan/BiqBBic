@@ -5,16 +5,24 @@ import BigBBic from "./page/BigBBic";
 import { useSetRecoilState } from "recoil";
 import {
   currentItemStore,
+  loadingStore,
   selectedMenuStore,
   similerItemsStore,
 } from "./recoilStore";
 import BarcodeScanner from "./barcode/BarcodeScanner";
+import { useEffect, useState } from "react";
 
 function App() {
   const setCurrentMenu = useSetRecoilState(selectedMenuStore);
   const setCurrentItem = useSetRecoilState(currentItemStore);
   const setSimilerItems = useSetRecoilState(similerItemsStore);
-  new BarcodeScanner(setCurrentMenu, setCurrentItem, setSimilerItems);
+  const setLoading = useSetRecoilState(loadingStore);
+  new BarcodeScanner(
+    setCurrentMenu,
+    setCurrentItem,
+    setSimilerItems,
+    setLoading
+  );
   return (
     <BrowserRouter>
       <Routes>

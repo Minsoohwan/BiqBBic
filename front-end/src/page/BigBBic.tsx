@@ -21,6 +21,7 @@ import ItemCountBox from "../style/component/ItemCountBox";
 import { useRecoilState } from "recoil";
 import {
   currentItemStore,
+  loadingStore,
   modalGatherStore,
   noDataStore,
   searchResultStore,
@@ -37,9 +38,12 @@ import { useNavigate } from "react-router";
 import EmptyVSpace from "../style/basicComponent/EmptyVSpace";
 import { CustomerServiceModal } from "../style/component/CustomerServiceModal";
 import { ItemSort } from "./ItemSort";
+import LoadPanel from "../style/component/LoadPanel";
 
 function BigBBic() {
   const nav = useNavigate();
+
+  const [isLoading, setLoading] = useRecoilState(loadingStore);
 
   const [infoVisible, setInfoVisible] = useState(true);
 
@@ -66,29 +70,39 @@ function BigBBic() {
     if (currentMenu == "주문내역") return;
 
     if (isNaN(Number(value))) {
-      BarcodeFetcher.getItems(value).then(({ data: items }) => {
-        if (items === "검색 결과 없음") {
-          setSearchResult("검색 결과 없음");
-          setCurrentMenu("검색");
-          return;
-        }
+      setLoading(true);
+      BarcodeFetcher.getItems(value)
+        .then(({ data: items }) => {
+          if (items === "검색 결과 없음") {
+            setSearchResult("검색 결과 없음");
+            setCurrentMenu("검색");
+            return;
+          }
 
-        setCurrentItem(null);
-        setCurrentMenu("검색");
-        setSearchResult(items);
-      });
+          setCurrentItem(null);
+          setCurrentMenu("검색");
+          setSearchResult(items);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
-      BarcodeFetcher.getItemData(value).then(({ data }) => {
-        if (data === "검색 결과 없음") {
-          setSearchResult("검색 결과 없음");
-          setCurrentMenu("검색");
-          return;
-        }
+      setLoading(true);
+      BarcodeFetcher.getItemData(value)
+        .then(({ data }) => {
+          if (data === "검색 결과 없음") {
+            setSearchResult("검색 결과 없음");
+            setCurrentMenu("검색");
+            return;
+          }
 
-        setCurrentItem(data.item);
-        setCurrentMenu("검색");
-        setSismilerItems(data.similerItems);
-      });
+          setCurrentItem(data.item);
+          setCurrentMenu("검색");
+          setSismilerItems(data.similerItems);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }
 
@@ -108,6 +122,11 @@ function BigBBic() {
       setCurrentMenu("상품");
     }
   }, [currentItem]);
+
+  useEffect(() => {
+    setCurrentMenu("바코드검색");
+    setCurrentItem(null);
+  }, []);
 
   return (
     <MyFlexContainer
@@ -364,16 +383,19 @@ function BigBBic() {
                       setCurrentItem(item);
                       setCurrentMenu("바코드검색");
                       setSismilerItems([]);
-                      BarcodeFetcher.getItems(item.text).then(
-                        ({ data: items }) => {
+                      setLoading(true);
+                      BarcodeFetcher.getItems(item.text)
+                        .then(({ data: items }) => {
                           if (items === "검색 결과 없음") {
                             setSismilerItems([]);
                             return;
                           }
 
                           setSismilerItems(items);
-                        }
-                      );
+                        })
+                        .finally(() => {
+                          setLoading(false);
+                        });
                     }}
                   />
                 ))}
@@ -396,7 +418,7 @@ function BigBBic() {
         {currentMenu === "heart" && <Favorite />}
         {currentMenu === "홈" && <Home />}
         {currentMenu === "다시 주문" && (
-          <ItemList title="자주 구매한 상품 다시 구매하기" />
+          <ItemList title="자주 구매한 상품 다시 구매하기" useCount={true} />
         )}
         {currentMenu === "상품 분류" && <ItemSort />}
       </ItemContainer>
@@ -423,63 +445,66 @@ function BigBBic() {
           $alignItems="center"
           $borderRadius="0px"
         >
-          {toBuyList.map((item: ToBuyItem) => (
-            <MyFlexContainer
-              key={item.id}
-              $position="relative"
-              $gap="5px"
-              $borderRadius="0px"
-              $flexShrink="0"
-            >
-              <input
-                type="checkbox"
-                checked={item.id in currentSelectedItems}
-                onChange={(e) => {
-                  if (e.target.checked) currentSelectedItems[item.id] = true;
-                  else delete currentSelectedItems[item.id];
-
-                  setCurrentSelectedItems({ ...currentSelectedItems });
-                }}
-              />
-              <ItemBox
-                preset="small"
-                item={{
-                  id: item.id,
-                  img: item.img,
-                  text: item.text,
-                  price: item.price,
-                }}
-                useCount={true}
-                itemCount={item.itemCount}
-                onCountChanged={(count) => {
-                  item.itemCount = count;
-
-                  setToBuyList([...toBuyList]);
-                }}
-              />
-              <MyContainer
-                $position="absolute"
-                $right="0"
-                $bottom="0"
-                $width="fit-content"
-                $height="17px"
-                $cursor="pointer"
-                $overflowY="hidden"
-                onClick={() => {
-                  const list = [...toBuyList];
-                  toBuyList.forEach((toBuyItem: ToBuyItem, idx: number) => {
-                    if (toBuyItem.id == item.id) list.splice(idx, 1);
-                  });
-                  setToBuyList(list);
-
-                  const selectedItems = { ...currentSelectedItems };
-                  delete selectedItems[item.id];
-                  setCurrentSelectedItems(selectedItems);
-                }}
+          {toBuyList.map((item: ToBuyItem, idx: number) => (
+            <>
+              <MyFlexContainer
+                key={item.id}
+                $position="relative"
+                $gap="5px"
+                $borderRadius="0px"
+                $flexShrink="0"
               >
-                <Trash height="17" />
-              </MyContainer>
-            </MyFlexContainer>
+                <input
+                  type="checkbox"
+                  checked={item.id in currentSelectedItems}
+                  onChange={(e) => {
+                    if (e.target.checked) currentSelectedItems[item.id] = true;
+                    else delete currentSelectedItems[item.id];
+
+                    setCurrentSelectedItems({ ...currentSelectedItems });
+                  }}
+                />
+                <ItemBox
+                  preset="small"
+                  item={{
+                    id: item.id,
+                    img: item.img,
+                    text: item.text,
+                    price: item.price,
+                  }}
+                  useCount={true}
+                  itemCount={item.itemCount}
+                  onCountChanged={(count) => {
+                    item.itemCount = count;
+
+                    setToBuyList([...toBuyList]);
+                  }}
+                />
+                <MyContainer
+                  $position="absolute"
+                  $right="0"
+                  $bottom="0"
+                  $width="fit-content"
+                  $height="17px"
+                  $cursor="pointer"
+                  $overflowY="hidden"
+                  onClick={() => {
+                    const list = [...toBuyList];
+                    toBuyList.forEach((toBuyItem: ToBuyItem, idx: number) => {
+                      if (toBuyItem.id == item.id) list.splice(idx, 1);
+                    });
+                    setToBuyList(list);
+
+                    const selectedItems = { ...currentSelectedItems };
+                    delete selectedItems[item.id];
+                    setCurrentSelectedItems(selectedItems);
+                  }}
+                >
+                  <Trash height="17" />
+                </MyContainer>
+              </MyFlexContainer>
+              {idx !== toBuyList.length - 1 && <MyHr />}
+            </>
           ))}
         </MyFlexContainer>
         <MyFlexContainer $flexDirection="column" $gap="4px" $flexShrink="0">
@@ -521,6 +546,7 @@ function BigBBic() {
         )}
       />
       <CustomerServiceModal />
+      {isLoading && <LoadPanel />}
     </MyFlexContainer>
   );
 }

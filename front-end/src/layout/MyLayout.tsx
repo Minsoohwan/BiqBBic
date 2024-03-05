@@ -24,6 +24,8 @@ const Layout = styled.div<StyledComponentProps>`
   min-width: 768px;
   padding: 25px;
   background-image: url(${(props) => props.$backgroundImage});
+  background-size: cover;
+  background-repeat: no-repeat;
   background-color: ${(props) => props.$backgroundColor};
 
   .calendar {

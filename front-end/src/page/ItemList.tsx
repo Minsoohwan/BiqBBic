@@ -7,9 +7,10 @@ import { formatPrice } from "../style/common";
 import ItemBox from "../style/component/ItemBox";
 import ItemCountBox from "../style/component/ItemCountBox";
 import palette from "../style/palette";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   currentItemStore,
+  loadingStore,
   selectedMenuStore,
   similerItemsStore,
 } from "../recoilStore";
@@ -24,6 +25,8 @@ export interface ItemListProps {
 
 function ItemList(props: ItemListProps) {
   const { title, items, useCount } = props;
+
+  const [isLoading, setLoading] = useRecoilState(loadingStore);
 
   const setCurrentMenu = useSetRecoilState(selectedMenuStore);
   const setCurrentItem = useSetRecoilState(currentItemStore);
@@ -114,7 +117,7 @@ function ItemList(props: ItemListProps) {
       )}
       <MyFlexContainer
         $overflowX="auto"
-        $gap="10px"
+        $gap="20px"
         $height="fit-content"
         $flexWrap="wrap"
       >
@@ -128,14 +131,19 @@ function ItemList(props: ItemListProps) {
             onClick={() => {
               setCurrentItem(item);
               setSismilerItems([]);
-              BarcodeFetcher.getItems(item.text).then(({ data: items }) => {
-                if (items === "검색 결과 없음") {
-                  setSismilerItems([]);
-                  return;
-                }
+              setLoading(true);
+              BarcodeFetcher.getItems(item.text)
+                .then(({ data: items }) => {
+                  if (items === "검색 결과 없음") {
+                    setSismilerItems([]);
+                    return;
+                  }
 
-                setSismilerItems(items);
-              });
+                  setSismilerItems(items);
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
             }}
           />
         ))}

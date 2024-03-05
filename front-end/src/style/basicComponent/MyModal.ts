@@ -37,3 +37,14 @@ export const CloesIcon = styled.div`
   z-index: 101;
   -webkit-transform: translate3d(0, 0, 21px);
 `;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  width: 100%;
+  height: 65px;
+  background-color: ${palette.main.green};
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+`;

@@ -6,8 +6,9 @@ import MyHr from "../basicComponent/MyHr";
 import EmptyVSpace from "../basicComponent/EmptyVSpace";
 import MyButton from "../basicComponent/MyButton";
 import { formatPrice } from "../common";
+import { Shadow } from "../basicComponent/MyModal";
 
-function Information({
+function HomeDoctorPopup({
   setPopupVisible,
 }: {
   setPopupVisible: Dispatch<React.SetStateAction<boolean>>;
@@ -30,42 +31,39 @@ function Information({
         />
         <TitleContainer>
           <MyText $font="title32" $color={palette.white}>
-            빅삑 프로토타입 안내
+            홈닥터 프로토타입 안내
           </MyText>
         </TitleContainer>
         <ContentContainer>
           <InfoBox />
-          <EmptyVSpace $height="17px" />
-          <video controls style={{ width: "100%" }}>
-            <source src={require("../../asset/aaa.mp4")} type="video/mp4" />
-          </video>
+          <ImgBox />
+          <div className="button">
+            <MyButton
+              $font="bold20"
+              $size="large"
+              $backgroundColor="blue"
+              $width="277px"
+              onClick={() => {
+                setPopupVisible(false);
+              }}
+            >
+              닫기
+            </MyButton>
+          </div>
         </ContentContainer>
       </PopupContent>
     </Shadow>
   );
 }
 
-export default Information;
-
-const Shadow = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 50;
-  -webkit-transform: translate3d(0, 0, 10px);
-`;
+export default HomeDoctorPopup;
 
 const PopupContent = styled.div`
   position: relative;
-
+  min-width: 800px;
   width: 800px;
-  height: 715px;
+  min-height: 650px;
+  height: 650px;
   border-radius: 10px;
   background-color: ${palette.white};
   z-index: 100;
@@ -78,31 +76,40 @@ const TitleContainer = styled.div`
   padding: 15px 20px;
   width: 100%;
   height: 65px;
-  background-color: ${palette.main.green};
+  background-color: ${palette.main.blue};
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 `;
 
 const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+
+  .button {
+    text-align: center;
+  }
 `;
 
 const InfoBox = styled.div`
   width: 100%;
-  height: 168px;
-  background-image: url("/asset/info.png");
+  height: 48px;
+  background-image: url("/asset/homeDoctorText.png");
   background-repeat: no-repeat;
   background-size: contain;
 `;
 
-const GifBox = styled.div`
+const ImgBox = styled.div`
   width: 100%;
-  height: 360px;
-  background-color: #d9d9d9;
+  height: 409px;
+  background-image: url("/asset/homeDoctorImg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 `;
-
 const CloesIcon = styled.div`
   position: absolute;
   top: 15px;

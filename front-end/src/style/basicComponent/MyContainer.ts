@@ -55,6 +55,11 @@ export const MyFlexContainer = styled(MyContainer)`
   align-items: ${(props) => props.$alignItems ?? "flex-start"};
   gap: ${(props) => props.$gap ?? "20px"};
   flex-wrap: ${(props) => props.$flexWrap};
+
+  .check-box {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 export const RowDiv = styled.div<StyledComponentProps>`

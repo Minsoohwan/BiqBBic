@@ -10,6 +10,7 @@ import {
   similerItemsStore,
 } from "./recoilStore";
 import BarcodeScanner from "./barcode/BarcodeScanner";
+import { YunseulPage } from "./page/YunseulPage";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/*" element={<Navigate to="/" />}></Route>
         <Route path="/" element={<DashBoard />} />
         <Route path="/big-bbic" element={<BigBBic />} />
+        <Route path="/yunseul" element={<YunseulPage />} />
       </Routes>
     </BrowserRouter>
   );

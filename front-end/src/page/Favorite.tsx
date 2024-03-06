@@ -27,7 +27,7 @@ function Favorite() {
   const [favoriteItems, setFavoriteItems] = useRecoilState(favoriteItemsStore);
 
   return (
-    <>
+    <MyFlexContainer $flexDirection="column" $alignItems="flex-start">
       <div style={{ width: "100%" }}>
         <MyText
           $font="bold24"
@@ -40,7 +40,7 @@ function Favorite() {
       </div>
       <MyFlexContainer
         $overflowX="auto"
-        $gap="10px"
+        $gap="20px"
         $flexGrow="1"
         $height="100%"
         $flexWrap="wrap"
@@ -66,7 +66,7 @@ function Favorite() {
           />
         ))}
       </MyFlexContainer>
-    </>
+    </MyFlexContainer>
   );
 }
 

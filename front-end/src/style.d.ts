@@ -50,3 +50,5 @@ type Font = {
 type StyledComponentProps = Partial<
   Font & CSSPropertiesWithPrefix<keyof CSSStyleDeclaration>
 >;
+
+type ysMenuType = "주문내역" | "옷장" | "홈" | "상품 분류";

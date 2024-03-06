@@ -40,7 +40,7 @@ function Favorite() {
       </div>
       <MyFlexContainer
         $overflowX="auto"
-        $gap="10px"
+        $gap="20px"
         $flexGrow="1"
         $height="100%"
         $flexWrap="wrap"

@@ -216,10 +216,13 @@ function BigBBic() {
           >
             <MyFlexContainer
               $alignContent="center"
+              $justifyContent="center"
               $gap="0"
               $color={palette.white}
             >
-              <ArrowLeft />
+              <div>
+                <ArrowLeft />
+              </div>
               뒤로가기
             </MyFlexContainer>
           </BackButton>
@@ -246,7 +249,7 @@ function BigBBic() {
                     : "검색어 또는 바코드 숫자를 입력해주세요."
                 }
                 onKeyUp={(e) => {
-                  if (e.code !== "Enter") return;
+                  if (e.key !== "Enter") return;
 
                   if (searchRef.current) searchItems(searchRef.current.value);
                 }}
@@ -403,7 +406,7 @@ function BigBBic() {
             </MyFlexContainer>
           </>
         )}
-        {searchResult === "검색 결과 없음" && (
+        {searchResult === "검색 결과 없음" && currentItem === null && (
           <MyFlexContainer
             $flexGrow="1"
             $font="title32"

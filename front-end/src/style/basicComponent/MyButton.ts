@@ -47,10 +47,6 @@ const MyButton = styled.button<ButtonProps>`
   &:hover {
     background-color: ${(props) => color[props.$backgroundColor].hover};
   }
-
-  &:active {
-    background-color: ${(props) => color[props.$backgroundColor].active};
-  }
 `;
 
 export default MyButton;

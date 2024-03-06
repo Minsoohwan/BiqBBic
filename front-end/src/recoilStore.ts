@@ -72,3 +72,8 @@ export const favoriteItemsStore = atom<ItemData[]>({
     },
   ],
 });
+
+export const loadingStore = atom<boolean>({
+  key: "loadingStore",
+  default: false,
+});

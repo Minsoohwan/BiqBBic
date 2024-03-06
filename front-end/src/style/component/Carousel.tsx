@@ -21,7 +21,7 @@ function Carousel({ slides }: { slides: string[] }) {
             <img
               src={slide}
               alt={`slide_${idx}`}
-              style={{ maxWidth: "100%" }}
+              style={{ maxWidth: "100%", width: "100%" }}
             />
           </div>
         ))}

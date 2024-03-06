@@ -211,7 +211,7 @@ function BigBBic() {
           </CallButton>
           <BackButton
             onClick={() => {
-              nav(-1);
+              nav("/");
             }}
           >
             <MyFlexContainer

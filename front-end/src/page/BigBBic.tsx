@@ -458,6 +458,7 @@ function BigBBic() {
                 $flexShrink="0"
               >
                 <input
+                  className="check-box"
                   type="checkbox"
                   checked={item.id in currentSelectedItems}
                   onChange={(e) => {

@@ -523,7 +523,9 @@ function BigBBic() {
               선택상품 총액
             </MyText>
             <MyText
-              $font={formatPrice(totalPrice).length >= 10 ? "bold20" : "bold24"}
+              $font={
+                formatPrice(totalPrice).length >= 10 ? "title20" : "title24"
+              }
               $color={palette.green.green4}
             >
               {formatPrice(totalPrice)}

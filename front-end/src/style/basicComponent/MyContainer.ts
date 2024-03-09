@@ -67,3 +67,10 @@ export const RowDiv = styled.div<StyledComponentProps>`
   position: relative;
   margin: ${(props) => props.$margin};
 `;
+
+export const Line1px = styled.div<StyledComponentProps>`
+  width: 100%;
+  height: 1px;
+  background-color: ${palette.gray.gray2};
+  margin: ${(props) => props.$margin};
+`;

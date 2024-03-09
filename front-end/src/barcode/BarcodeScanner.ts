@@ -71,7 +71,7 @@ class BarcodeScanner {
         this.setLoading(true);
         BarcodeFetcher.getItemData(barcode)
           .then(({ data }) => {
-            if (data == "검색 결과 없음") {
+            if (data === "검색 결과 없음") {
               this.setItem(data);
               return;
             }

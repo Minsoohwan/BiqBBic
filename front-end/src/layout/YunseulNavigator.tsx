@@ -7,7 +7,7 @@ import { ysMenuState } from "../recoil/Yunseul";
 import React from "react";
 
 export const YunseulNavigator = () => {
-  const menuList: ysMenuType[] = ["주문내역", "옷장", "홈", "상품 분류"];
+  const menuList: ysMenuType[] = ["옷장", "홈"];
   const [ysMenu, setYsMenu] = useRecoilState(ysMenuState);
 
   return (

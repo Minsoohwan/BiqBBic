@@ -9,7 +9,7 @@ export const MainLayout = ({ children }: PropsWithChildren) => {
   return (
     <Layout>
       <YunseulNavigator />
-      <YunseulCenter />
+      <YunseulCenter children={children} />
       <YunseulCart />
     </Layout>
   );
@@ -22,5 +22,6 @@ const Layout = styled.div`
   padding: 15px 15px 15px 0;
   display: flex;
   flex-direction: row;
+  position: relative;
   background-color: ${palette.gray.gray2};
 `;

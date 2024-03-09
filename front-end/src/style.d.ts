@@ -35,10 +35,12 @@ type CSSPropertiesWithPrefix<T extends keyof CSSStyleDeclaration> = {
 type FontType =
   | "title32"
   | "title24"
+  | "title20"
   | "bold28"
   | "bold24"
   | "bold20"
   | "bold16"
+  | "bold14"
   | "regular24"
   | "regular20"
   | "regular16"
@@ -52,3 +54,13 @@ type StyledComponentProps = Partial<
 >;
 
 type ysMenuType = "주문내역" | "옷장" | "홈" | "상품 분류";
+
+type ysCartType = {
+  clothKey: string;
+  brand: string;
+  title: string;
+  option: string[];
+  buyNum: number;
+  price: number;
+  src: string;
+};

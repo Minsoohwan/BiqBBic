@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import palette from "../style/palette";
+import { PropsWithChildren } from "react";
 
-export const YunseulCenter = () => {
-  return <Wrap></Wrap>;
+export const YunseulCenter = ({ children }: PropsWithChildren) => {
+  return <Wrap>{children}</Wrap>;
 };
 
 const Wrap = styled.div`
@@ -13,5 +14,6 @@ const Wrap = styled.div`
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  padding: 25px;
 `;

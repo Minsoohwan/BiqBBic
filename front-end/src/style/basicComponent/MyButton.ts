@@ -3,7 +3,7 @@ import palette from "../palette";
 import { handleFontStyle } from "../common";
 
 type Size = "small" | "medium" | "large";
-type Color = "orange" | "green" | "blue";
+type Color = "orange" | "green" | "blue" | "mainBlue";
 
 type ButtonProps = {
   $disabled?: boolean;
@@ -26,6 +26,11 @@ const color = {
     default: palette.blue.blue4,
     hover: palette.blue.blue3,
     active: palette.main.blue,
+  },
+  mainBlue: {
+    default: palette.main.blue,
+    hover: palette.blue.blue4,
+    active: palette.blue.blue3,
   },
 };
 

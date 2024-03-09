@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import palette from "../palette";
 import BarcodeFetcher from "../../barcode/BarcodeFetcher";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   currentItemStore,
+  loadingStore,
   searchResultStore,
   selectedMenuStore,
   similerItemsStore,
@@ -20,12 +21,15 @@ export const ItemSortBox = ({ title, imgUrl }: itemsortProps) => {
   const [currentItem, setCurrentItem] = useRecoilState(currentItemStore);
   const [similerItems, setSismilerItems] = useRecoilState(similerItemsStore);
   const [searchResult, setSearchResult] = useRecoilState(searchResultStore);
+  const setLoading = useSetRecoilState(loadingStore);
 
   function searchItems(value: string | number) {
     if (currentMenu == "주문내역") return;
 
+    let pr: Promise<void> = Promise.resolve();
+    setLoading(true);
     if (isNaN(Number(value))) {
-      BarcodeFetcher.getItems(value).then(({ data: items }) => {
+      pr = BarcodeFetcher.getItems(value).then(({ data: items }) => {
         if (items === "검색 결과 없음") {
           setSearchResult("검색 결과 없음");
           setCurrentMenu("검색");
@@ -37,7 +41,7 @@ export const ItemSortBox = ({ title, imgUrl }: itemsortProps) => {
         setSearchResult(items);
       });
     } else {
-      BarcodeFetcher.getItemData(value).then(({ data }) => {
+      pr = BarcodeFetcher.getItemData(value).then(({ data }) => {
         if (data === "검색 결과 없음") {
           setSearchResult("검색 결과 없음");
           setCurrentMenu("검색");
@@ -49,6 +53,10 @@ export const ItemSortBox = ({ title, imgUrl }: itemsortProps) => {
         setSismilerItems(data.similerItems);
       });
     }
+
+    pr.finally(() => {
+      setLoading(false);
+    });
   }
   return (
     <Wrap

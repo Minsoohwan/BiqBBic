@@ -49,10 +49,6 @@ const MyButton = styled.button<ButtonProps>`
   align-self: ${(props) => props.$alignSelf};
   cursor: pointer;
 
-  &:hover {
-    background-color: ${(props) => color[props.$backgroundColor].hover};
-  }
-
   &:active {
     background-color: ${(props) => color[props.$backgroundColor].active};
   }

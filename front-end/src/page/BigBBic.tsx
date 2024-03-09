@@ -211,7 +211,7 @@ function BigBBic() {
           </CallButton>
           <BackButton
             onClick={() => {
-              nav(-1);
+              nav("/");
             }}
           >
             <MyFlexContainer
@@ -458,6 +458,7 @@ function BigBBic() {
                 $flexShrink="0"
               >
                 <input
+                  className="check-box"
                   type="checkbox"
                   checked={item.id in currentSelectedItems}
                   onChange={(e) => {

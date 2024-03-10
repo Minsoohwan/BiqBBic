@@ -23,7 +23,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   height: 30%; /* 스크롤바의 길이 */
-  background: #d9d9d9; /* 스크롤바의 색상 */
+  background: #dbe8e8; /* 스크롤바의 색상 */
   border-radius: 10px;
   background-clip: padding-box;
 }

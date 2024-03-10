@@ -73,10 +73,10 @@ function DashBoard() {
                 text1: "윤슬",
                 text2: "나에게 딱 맞는 스타일",
                 iconImage: "/asset/yunseol.png",
-                onClick: () => {
-                  alert("3월 중 프로토타입 개발 완료 예정입니다.");
-                },
-                // linkTo: "/yunseul",
+                // onClick: () => {
+                //   alert("3월 중 프로토타입 개발 완료 예정입니다.");
+                // },
+                linkTo: "/yunseul",
               },
               {
                 id: "homeDoctor",

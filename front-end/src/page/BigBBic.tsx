@@ -117,7 +117,6 @@ function BigBBic() {
   }, [toBuyList, currentSelectedItems]);
 
   useEffect(() => {
-    console.log(currentItem);
     if (currentItem) {
       setItemCount(1);
       setCurrentMenu("상품");
@@ -407,17 +406,19 @@ function BigBBic() {
             </MyFlexContainer>
           </>
         )}
-        {searchResult === "검색 결과 없음" && currentItem === null && (
-          <MyFlexContainer
-            $flexGrow="1"
-            $font="title32"
-            $flexDirection="column"
-            $alignItems="center"
-            $margin="150px 0 0 0"
-          >
-            검색 결과가 없습니다.
-          </MyFlexContainer>
-        )}
+        {currentMenu === "검색" &&
+          searchResult === "검색 결과 없음" &&
+          currentItem === null && (
+            <MyFlexContainer
+              $flexGrow="1"
+              $font="title32"
+              $flexDirection="column"
+              $alignItems="center"
+              $margin="150px 0 0 0"
+            >
+              검색 결과가 없습니다.
+            </MyFlexContainer>
+          )}
 
         {currentMenu === "heart" && <Favorite />}
         {currentMenu === "홈" && <Home />}

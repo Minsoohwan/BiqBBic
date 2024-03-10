@@ -68,15 +68,17 @@ class BarcodeScanner {
         this.input.replace("Enter", "").endsWith("end")
       ) {
         this.isFetching = true;
-        this.setMenu("검색");
+        this.setMenu("바코드검색");
         const barcode = this.input.slice(2, this.input.length - 3);
 
         this.setLoading(true);
         BarcodeFetcher.getItemData(barcode)
           .then(({ data }) => {
+            this.setMenu("검색");
+
             if (data == "검색 결과 없음") {
+              this.setItem(null);
               this.setSearchResult(data);
-              this.setMenu("검색");
               return;
             }
 

@@ -64,11 +64,19 @@ export const MyFlexContainer = styled(MyContainer)`
 
 export const RowDiv = styled.div<StyledComponentProps>`
   width: ${(props) => (props.$width ? props.$width : "100%")};
+  height: ${(props) => props.$height};
   display: flex;
   column-gap: ${(props) => (props.$columnGap ? props.$columnGap : "20px")};
   justify-content: ${(props) =>
     props.$justifyContent ? props.$justifyContent : "center"};
   align-items: ${(props) => (props.$alignItems ? props.$alignItems : "center")};
   position: relative;
+  margin: ${(props) => props.$margin};
+`;
+
+export const Line1px = styled.div<StyledComponentProps>`
+  width: 100%;
+  height: 1px;
+  background-color: ${palette.gray.gray2};
   margin: ${(props) => props.$margin};
 `;

@@ -69,13 +69,14 @@ function DashBoard() {
                 linkTo: "/big-bbic",
               },
               {
-                id: "yunseol",
+                id: "yunseul",
                 text1: "윤슬",
                 text2: "나에게 딱 맞는 스타일",
                 iconImage: "/asset/yunseol.png",
                 onClick: () => {
-                  alert("준비중인 서비스 입니다.(3월 초 이내)");
+                  alert("3월 중 프로토타입 개발 완료 예정입니다.");
                 },
+                // linkTo: "/yunseul",
               },
               {
                 id: "homeDoctor",
@@ -123,7 +124,7 @@ function DashBoard() {
             </MyFlexContainer>
           </MyFlexContainer>
         </MyFlexContainer>
-        <Calendar className="calendar" width="40%" height="100%" />
+        <Calendar className="calendar" width="40%" />
       </MyLayout>
 
       {showDoctorModal && (

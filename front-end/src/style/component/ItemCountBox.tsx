@@ -8,10 +8,12 @@ function ItemCountBox({
   count,
   setCount,
   onCountChanged,
+  useage,
 }: {
   count: number;
   setCount: Dispatch<SetStateAction<number>>;
   onCountChanged?: (count: number) => void;
+  useage?: "yunseul" | "bigbbic";
 }) {
   const onHandleCount = (count: number) => {
     setCount(count);
@@ -19,7 +21,13 @@ function ItemCountBox({
   };
 
   return (
-    <Container>
+    <Container
+      style={{
+        border: `1px solid ${
+          useage === "yunseul" ? palette.main.blue : palette.main.green
+        }`,
+      }}
+    >
       <IconItem
         $disabled={count < 1}
         onClick={() => {
@@ -52,7 +60,6 @@ const Container = styled.div`
   align-items: center;
   width: 92px;
   height: 32px;
-  border: ${`1px solid ${palette.main.green}`};
   border-radius: 10px;
 `;
 

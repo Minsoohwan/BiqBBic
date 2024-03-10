@@ -6,6 +6,7 @@ import { useSetRecoilState } from "recoil";
 import {
   currentItemStore,
   loadingStore,
+  searchResultStore,
   selectedMenuStore,
   similerItemsStore,
 } from "./recoilStore";
@@ -17,11 +18,13 @@ function App() {
   const setCurrentMenu = useSetRecoilState(selectedMenuStore);
   const setCurrentItem = useSetRecoilState(currentItemStore);
   const setSimilerItems = useSetRecoilState(similerItemsStore);
+  const setSearchResult = useSetRecoilState(searchResultStore);
   const setLoading = useSetRecoilState(loadingStore);
   new BarcodeScanner(
     setCurrentMenu,
     setCurrentItem,
     setSimilerItems,
+    setSearchResult,
     setLoading
   );
   return (

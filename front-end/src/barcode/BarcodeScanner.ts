@@ -12,12 +12,14 @@ class BarcodeScanner {
   setMenu: SetterOrUpdater<string>;
   setItem: SetterOrUpdater<ItemData | null>;
   setSimilerItems: SetterOrUpdater<ItemData[]>;
+  setSearchResult: SetterOrUpdater<ItemData[] | "검색 결과 없음">;
   setLoading: SetterOrUpdater<boolean>;
 
   constructor(
     setMenu: SetterOrUpdater<string>,
     setItem: SetterOrUpdater<ItemData | null>,
     setSimilerItems: SetterOrUpdater<ItemData[]>,
+    setSearchResult: SetterOrUpdater<ItemData[] | "검색 결과 없음">,
     setLoading: SetterOrUpdater<boolean>
   ) {
     this.input = "";
@@ -28,6 +30,7 @@ class BarcodeScanner {
     this.setMenu = setMenu;
     this.setItem = setItem;
     this.setSimilerItems = setSimilerItems;
+    this.setSearchResult = setSearchResult;
     this.setLoading = setLoading;
 
     window.addEventListener("keydown", (e: any) => {
@@ -65,14 +68,15 @@ class BarcodeScanner {
         this.input.replace("Enter", "").endsWith("end")
       ) {
         this.isFetching = true;
-        this.setMenu("바코드검색");
+        this.setMenu("검색");
         const barcode = this.input.slice(2, this.input.length - 3);
 
         this.setLoading(true);
         BarcodeFetcher.getItemData(barcode)
           .then(({ data }) => {
-            if (data === "검색 결과 없음") {
-              this.setItem(data);
+            if (data == "검색 결과 없음") {
+              this.setSearchResult(data);
+              this.setMenu("검색");
               return;
             }
 

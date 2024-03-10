@@ -37,7 +37,10 @@ function Information({
           <InfoBox />
           <EmptyVSpace $height="17px" />
           <video controls style={{ width: "100%" }}>
-            <source src={require("../../asset/aaa.mp4")} type="video/mp4" />
+            <source
+              src={require("../../asset/prototype.mp4")}
+              type="video/mp4"
+            />
           </video>
         </ContentContainer>
       </PopupContent>

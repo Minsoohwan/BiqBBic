@@ -117,6 +117,7 @@ function BigBBic() {
   }, [toBuyList, currentSelectedItems]);
 
   useEffect(() => {
+    console.log(currentItem);
     if (currentItem) {
       setItemCount(1);
       setCurrentMenu("상품");

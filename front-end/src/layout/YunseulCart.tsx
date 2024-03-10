@@ -159,7 +159,7 @@ const Wrap = styled.div`
 
 const ProductGroup = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100% - 160px);
   display: flex;
   flex-direction: column;
   margin: 10px 0px;

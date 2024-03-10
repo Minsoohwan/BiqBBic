@@ -64,6 +64,7 @@ export const MyFlexContainer = styled(MyContainer)`
 
 export const RowDiv = styled.div<StyledComponentProps>`
   width: ${(props) => (props.$width ? props.$width : "100%")};
+  height: ${(props) => props.$height};
   display: flex;
   column-gap: ${(props) => (props.$columnGap ? props.$columnGap : "20px")};
   justify-content: ${(props) =>

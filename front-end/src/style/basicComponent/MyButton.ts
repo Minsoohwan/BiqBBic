@@ -68,3 +68,23 @@ function getSize(size: Size) {
       return "width: fit-content; height: 34px; padding: 7px 10px;";
   }
 }
+
+interface btnProps {
+  $isActive: boolean;
+}
+
+export const YsClothSortBtn = styled.div<btnProps>`
+  width: 66px;
+  height: 30px;
+  display: flex;
+  font-family: ${(props) => (props.$isActive ? "bold" : "regular")};
+  font-size: 14px;
+  background-color: ${(props) =>
+    props.$isActive ? palette.main.blue : palette.white};
+  border: 1px solid ${palette.main.blue};
+  cursor: pointer;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => (props.$isActive ? palette.white : palette.black)};
+`;
